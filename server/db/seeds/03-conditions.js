@@ -3,27 +3,15 @@ export async function seed(knex) {
   await knex('conditions').insert([
     {
       id: 1,
-      name: 'CPU',
+      description: 'Used',
     },
     {
       id: 2,
-      name: 'GPU',
+      description: 'Like New',
     },
     {
       id: 3,
-      name: 'Motherboard',
-    },
-    {
-      id: 4,
-      name: 'RAM',
-    },
-    {
-      id: 5,
-      name: 'Storage',
-    },
-    {
-      id: 6,
-      name: 'Power Supply',
+      description: 'New',
     },
   ])
 }
