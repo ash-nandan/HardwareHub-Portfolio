@@ -9,7 +9,7 @@ export interface UserListing {
   itemImage: string
 }
 
-export interface NewListing {
+export interface NewListingData {
   userId: number
   categoryId: number
   condditonId: number
