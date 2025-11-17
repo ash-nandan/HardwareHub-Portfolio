@@ -1,15 +1,13 @@
 import { Outlet } from 'react-router'
+import NavBar from './NavBar'
 
 export default function Layout() {
   return (
-    <>
-      <header>
-        <h1>Fullstack Boilerplate - with Fruits!</h1>
-      </header>
-      <main>
+    <div className="bg-hardware-navy flex min-h-screen flex-col text-white">
+      <NavBar />
+      <main className="flex-1 px-10 py-8">
         <Outlet />
       </main>
-      <footer></footer>
-    </>
+    </div>
   )
 }
