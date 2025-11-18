@@ -1,10 +1,11 @@
 export interface Listing {
-  id: number
-  username: string
-  categoryId: number
-  conditionId: number
+  listingId: number
+  categoryName: string
+  conditionDescription: string
   itemName: string
   startingPrice: number
   itemDescription: string
   itemImage: string
+  username: string
+  
 }
