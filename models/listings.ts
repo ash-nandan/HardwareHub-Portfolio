@@ -1,6 +1,6 @@
 export interface Listing {
   id: number
-  userId: number
+  username: string
   categoryId: number
   conditionId: number
   itemName: string
