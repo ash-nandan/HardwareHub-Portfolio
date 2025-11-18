@@ -12,7 +12,7 @@ export interface UserListing {
 export interface NewListingData {
   userId: number
   categoryId: number
-  condditonId: number
+  conditionId: number
   itemName: string
   startingPrice: number
   itemDescription: string
