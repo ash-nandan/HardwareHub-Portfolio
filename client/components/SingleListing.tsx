@@ -50,7 +50,7 @@ export function SingleListing() {
           <h3 className="mb-4 font-mono text-lg">{data.itemName}</h3>
 
           <p className="text-sm">{`Condition: ${data.conditionDescription}`}</p>
-          <p className="mb-4 text-sm">{`Starting Price: ${data.startingPrice}`}</p>
+          <p className="mb-4 text-sm">{`Starting Price: $${data.startingPrice.toFixed(2)}`}</p>
 
           <p className="text-sm">
             Category:{' '}
