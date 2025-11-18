@@ -34,9 +34,10 @@ export function SingleListing() {
         <Button
           onClick={() => navigate('/listings')}
           variant="ghost"
-          className="m-4"
+          className="m-5 flex text-3xl text-hardware-white"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
+          <p className="font-mono text-sm">Back to Listings</p>
         </Button>
 
         <img
@@ -65,10 +66,12 @@ export function SingleListing() {
         </div>
       </div>
 
-      <div className="mt-16 h-72 max-w-xl rounded-none bg-hardware-white p-6">
-        <p className="mb-4 font-mono font-bold">Description:</p>
+      <div className="max-w-xl">
+        <div className="mr-6 mt-20 max-w-xl rounded-none bg-hardware-white p-6">
+          <p className="mb-4 font-mono font-bold">Description:</p>
 
-        <p className="text-hardware-charcoal">{data.itemDescription}</p>
+          <p className="text-hardware-charcoal">{data.itemDescription}</p>
+        </div>
       </div>
     </div>
   )
