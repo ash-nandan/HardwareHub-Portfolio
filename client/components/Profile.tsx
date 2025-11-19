@@ -8,7 +8,7 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const res = await fetch(`/api/profile/${userId}`)
+        const res = await fetch(`/api/v1/profile/${userId}`)
         if (!res.ok) {
           console.error('Failed to load profile')
           return
