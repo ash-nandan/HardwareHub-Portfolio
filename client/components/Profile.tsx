@@ -1,28 +1,36 @@
+import { useState, useEffect } from 'react'
 import { Profile } from '../../models/profile'
-import { useState } from 'react'
-
-const mockProfile: Profile = {
-  id: 1,
-  auth_id: 'auth0|64a92bd1e5c34d71b7f0a123',
-  username: 'techwizard42',
-  first_name: 'Aiden',
-  last_name: 'Lowe',
-  email: 'aiden.lowe@example.com',
-  address_one: '12 Falcon Ridge',
-  address_two: null,
-  town_city: 'Hamilton',
-  postcode: '3216',
-  phone: '0213456789',
-  image_url: 'user1.jpg',
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-}
 
 export default function ProfilePage() {
-  const [profile] = useState<Profile>(mockProfile)
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const userId = 1
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const res = await fetch(`/api/profile/${userId}`)
+        if (!res.ok) {
+          console.error('Failed to load profile')
+          return
+        }
+        const data: Profile = await res.json()
+        setProfile(data)
+      } catch (err) {
+        console.error('Error fetching profile', err)
+      }
+    }
+    fetchProfile()
+  }, [userId])
+
+  if (!profile) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0E2338] text-[#F3F6F9]">
+        <p>Loading profile...</p>
+      </div>
+    )
+  }
 
   const fullName = `${profile.first_name} ${profile.last_name}`
-
   const address = [
     profile.address_one,
     profile.address_two,
