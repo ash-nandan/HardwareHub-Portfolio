@@ -25,4 +25,15 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const listingId = Number(req.params.id)
+    await db.deleteListing(listingId)
+    res.sendStatus(204)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 export default router

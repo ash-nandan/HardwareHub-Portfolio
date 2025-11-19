@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getSingleListing } from '../apis/listings'
 import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
+import { DeleteListing } from './DeleteListing'
 
 export function SingleListing() {
   const params = useParams()
@@ -60,9 +61,7 @@ export function SingleListing() {
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
 
-          <Button className="mt-6 rounded-sm bg-hardware-charcoal px-4 py-2 text-sm text-white">
-            Delete Listing
-          </Button>
+          <DeleteListing listingId={data.listingId} />
         </div>
       </div>
 
