@@ -63,7 +63,7 @@ export function CreateListing() {
 
     createListingMutation.mutate(formData, {
       onSuccess: (data) => {
-        navigate('/listings/' + data.listingId)
+        navigate('/')
       },
     })
   }
