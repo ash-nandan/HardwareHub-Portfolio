@@ -9,8 +9,6 @@ export async function getSingleListing(listingId: number) {
 }
 
 export async function createNewLisitng(listingData: NewListingData) {
-  const res = await request
-    .post(`${rootURL}/listings/${listingData.userId}`)
-    .send(listingData)
+  const res = await request.post(`${rootURL}/listings}`).send(listingData)
   return res.body as Listing
 }

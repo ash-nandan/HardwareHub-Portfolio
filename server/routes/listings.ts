@@ -14,7 +14,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.post('/:id', async (req, res) => {
+router.post('/:', async (req, res) => {
   try {
     const listingData = req.body
     const newListing = await db.createListing(listingData)
