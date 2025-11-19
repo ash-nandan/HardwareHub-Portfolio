@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { ArrowLeft } from 'lucide-react'
 
 export function CreateListing() {
   const [formData, setFormData] = useState<NewListingData>({
@@ -26,6 +27,16 @@ export function CreateListing() {
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const [imageSource, setImageSource] = useState<'upload' | 'Preset'>('upload')
+
+  const presetImages = [
+    '/images-listings/listing1.jpg',
+    '/images-listings/listing2.jpg',
+    '/images-listings/listing3.jpg',
+    '/images-listings/listing4.jpg',
+    '/images-listings/listing5.jpg',
+    '/images-listings/listing6.jpg',
+  ]
 
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -81,11 +92,26 @@ export function CreateListing() {
     }
   }
 
+  const handlePresetImageSelect = (imagePath: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      item_image: imagePath,
+    }))
+  }
+
   return (
     <section className="space-y-6">
       <h1 className="text-center font-mono text-3xl text-white">
         Create Your Listing
       </h1>
+      <Button
+        onClick={() => navigate('/listings')}
+        variant="ghost"
+        className="m-5 flex text-3xl text-hardware-white"
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        <p className="font-mono text-sm">Back to Listings</p>
+      </Button>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="space-y-6 rounded-none bg-hardware-blue p-8 text-white">
@@ -199,25 +225,79 @@ export function CreateListing() {
               <h3 className="font-mono text-lg text-hardware-charcoal">
                 2. Image Upload
               </h3>
-              <p className="text-hardware-charcoal">
-                Upload a photo for your listing
-              </p>
-
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-                id="file-upload"
-              />
-
-              <Button
-                type="button"
-                className="rounded-sm bg-hardware-graphite px-4 py-2 font-mono text-white"
-                onClick={() => document.getElementById('file-upload')?.click()}
-              >
-                Choose File
-              </Button>
+              <div className="mb-4 flex gap-4">
+                <Button
+                  type="button"
+                  onClick={() => setImageSource('upload')}
+                  className={`rounded-sm px-4 py-2 font-mono ${
+                    imageSource === 'upload'
+                      ? 'bg-hardware-graphite text-white'
+                      : 'bg-hardware-lightgray text-hardware-charcoal'
+                  }`}
+                >
+                  Upload Image
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => setImageSource('Preset')}
+                  className={`rounded-sm px-4 py-2 font-mono ${
+                    imageSource === 'Preset'
+                      ? 'bg-hardware-graphite text-white'
+                      : 'bg-hardware-lightgray text-hardware-charcoal'
+                  }`}
+                >
+                  Choose Preset
+                </Button>
+              </div>
+              {imageSource === 'upload' ? (
+                <>
+                  <p className="text-hardware-charcoal">
+                    Upload a photo for your listing
+                  </p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <Button
+                    type="button"
+                    className="rounded-sm bg-hardware-graphite px-4 py-2 font-mono text-white"
+                    onClick={() =>
+                      document.getElementById('file-upload')?.click()
+                    }
+                  >
+                    Choose File
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <p className="text-hardware-charcoal">
+                    Select a preset image for your listing
+                  </p>
+                  <div className="grid grid-cols-3 gap-4">
+                    {presetImages.map((imagePath, index) => (
+                      <Button
+                        key={index}
+                        type="button"
+                        onClick={() => handlePresetImageSelect(imagePath)}
+                        className={`border-2 p-1 ${
+                          formData.item_image === imagePath
+                            ? 'border-hardware-blue'
+                            : 'border-transparent'
+                        }`}
+                      >
+                        <img
+                          src={imagePath}
+                          alt={`Preset ${index + 1}`}
+                          className="h-24 w-full object-cover"
+                        />
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
 
               <div className="flex h-48 w-full items-center justify-center rounded-none border border-hardware-graphite text-hardware-graphite">
                 {formData.item_image ? (
