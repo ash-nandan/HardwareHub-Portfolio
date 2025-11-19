@@ -30,3 +30,7 @@ export async function getListingById(listingId: number): Promise<Listing> {
 
   return res
 }
+
+export async function deleteListing(listingId: number): Promise<number> {
+  return db('user_listings').where({ 'user_listings.id': listingId }).del()
+}
