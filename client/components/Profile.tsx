@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Profile } from '../../models/profile'
+import EditProfileForm from './EditProfileForm'
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const userId = 1
+  const [editing, setEditing] = useState(false)
 
   useEffect(() => {
     async function fetchProfile() {
@@ -47,23 +49,37 @@ export default function ProfilePage() {
 
         <div className="grid gap-10 md:grid-cols-2">
           <section className="max-w-lg rounded-xl bg-[#1676FF] px-8 py-10 shadow-lg">
-            <h2 className="mb-6 text-center text-lg font-semibold tracking-wide">
-              Personal Details
-            </h2>
-
-            <div className="space-y-4 text-sm">
-              <DetailRow label="Username" value={profile.username} />
-              <DetailRow label="Full Name" value={fullName} />
-              <DetailRow label="Email Address" value={profile.email} />
-              <DetailRow label="Phone Number" value={profile.phone} />
-              <DetailRow label="Address" value={address} multiline />
-            </div>
-
-            <div className="mt-8 flex justify-end">
-              <button className="rounded-md bg-[#F3F6F9] px-4 py-2 text-sm font-medium text-[#2A2A32] shadow-sm hover:bg-[#D3D8DE]">
-                Edit Profile
-              </button>
-            </div>
+            {editing ? (
+              <EditProfileForm
+                profile={profile}
+                onClose={() => setEditing(false)}
+                onUpdate={(updated) => {
+                  setProfile(updated)
+                  setEditing(false)
+                }}
+              />
+            ) : (
+              <>
+                <h2 className="mb-6 text-center text-lg font-semibold tracking-wide">
+                  Personal Details
+                </h2>
+                <div className="space-y-4 text-sm">
+                  <DetailRow label="Username" value={profile.username} />
+                  <DetailRow label="Full Name" value={fullName} />
+                  <DetailRow label="Email Address" value={profile.email} />
+                  <DetailRow label="Phone Number" value={profile.phone} />
+                  <DetailRow label="Address" value={address} multiline />
+                </div>
+                <div className="mt-8 flex justify-end">
+                  <button
+                    className="rounded-md bg-[#F3F6F9] px-4 py-2 text-sm font-medium text-[#2A2A32] shadow-sm hover:bg-[#D3D8DE]"
+                    onClick={() => setEditing(true)}
+                  >
+                    Edit Profile
+                  </button>
+                </div>
+              </>
+            )}
           </section>
           <ProfilePictureCard imageUrl={profile.image_url} />
         </div>

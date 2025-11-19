@@ -18,4 +18,14 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+router.put('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const updated = await db.updateProfile(id, req.body)
+    res.json(updated)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Failed to update profile' })
+  }
+})
 export default router
