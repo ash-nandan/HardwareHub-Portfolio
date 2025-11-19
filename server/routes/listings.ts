@@ -27,6 +27,7 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
+    // TODO add auth checks to ensure only the owner can update
     const listingId = Number(req.params.id)
     const listingData = { ...req.body, id: listingId }
     const updatedListing = await db.updateListing(listingData)
