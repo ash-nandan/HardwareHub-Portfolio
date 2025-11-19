@@ -73,7 +73,7 @@ export function CreateListing() {
     }
 
     createListingMutation.mutate(formData, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         navigate('/')
       },
     })
@@ -92,22 +92,11 @@ export function CreateListing() {
     }
   }
 
-  const handlePresetImageSelect = async (imagePath: string) => {
-    try {
-      const response = await fetch(imagePath)
-      const blob = await response.blob()
-
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          item_image: reader.result as string,
-        }))
-      }
-      reader.readAsDataURL(blob)
-    } catch (error) {
-      console.error('Error selecting preset image:', error)
-    }
+  const handlePresetImageSelect = (imagePath: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      item_image: imagePath,
+    }))
   }
 
   return (
