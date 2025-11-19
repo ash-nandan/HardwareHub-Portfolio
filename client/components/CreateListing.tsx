@@ -4,6 +4,15 @@ import { createNewLisitng } from '../apis/listings'
 import { useState, ChangeEvent, FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export function CreateListing() {
   const [formData, setFormData] = useState<NewListingData>({
@@ -16,6 +25,8 @@ export function CreateListing() {
     userId: 1, // hardcoded till auth is done
   })
 
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
+
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -27,89 +38,229 @@ export function CreateListing() {
   })
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        name === 'startingPrice' ||
-        name === 'categoryId' ||
-        name === 'conditionId'
-          ? Number(value)
-          : value,
+      [name]: name === 'startingPrice' ? Number(value) : value,
+    }))
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: Number(value),
     }))
   }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    if (!agreedToTerms) {
+      alert('Please agree to the terms and conditions')
+      return
+    }
+
     createListingMutation.mutate(formData, {
       onSuccess: (data) => {
         navigate('/listings/' + data.listingId)
       },
     })
   }
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData((prev) => ({
+          ...prev,
+          itemImage: reader.result as string,
+        }))
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="itemName"
-        value={formData.itemName}
-        onChange={handleChange}
-        placeholder="Item Name"
-        required
-      />
-      <textarea
-        name="itemDescription"
-        value={formData.itemDescription}
-        onChange={handleChange}
-        placeholder="Item Description"
-        required
-      ></textarea>
-      <input
-        type="text"
-        name="itemImage"
-        value={formData.itemImage}
-        onChange={handleChange}
-        placeholder="Item Image URL"
-        required
-      />
-      <input
-        type="number"
-        name="startingPrice"
-        value={formData.startingPrice}
-        onChange={handleChange}
-        placeholder="Starting Price"
-        required
-      />
-      <select
-        name="categoryId"
-        value={formData.categoryId}
-        onChange={handleChange}
-        required
-      >
-        <option value="">Select Category</option>
-        <option value="1">CPU</option>
-        <option value="2">GPU</option>
-        <option value="3">Ram</option>
-        <option value="4">Fans</option>
-        <option value="5">Storage</option>
-        <option value="6">Case</option>
-        <option value="7">Peripheral</option>
-      </select>
-      <select
-        name="conditionId"
-        value={formData.conditionId}
-        onChange={handleChange}
-        required
-      >
-        <option value="">Select Condition</option>
-        <option value="1">New</option>
-        <option value="2">Like New</option>
-        <option value="3">used</option>
-      </select>
-      <Button type="submit">Create Your Listing</Button>
-    </form>
+    <section className="space-y-6">
+      <h1 className="text-center font-mono text-3xl text-white">
+        Create Your Listing
+      </h1>
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="space-y-6 rounded-none bg-hardware-blue p-8 text-white">
+            <h3 className="mb-4 text-center font-mono text-xl">
+              1. Fill in details
+            </h3>
+
+            <div>
+              <Label>Item Name</Label>
+              <input
+                type="text"
+                name="itemName"
+                value={formData.itemName}
+                onChange={handleChange}
+                placeholder="Enter item name"
+                className="mt-1 w-full rounded-none bg-hardware-white p-2 text-hardware-charcoal"
+                required
+              />
+            </div>
+
+            <div>
+              <Label>Starting Price</Label>
+              <input
+                type="number"
+                name="startingPrice"
+                value={formData.startingPrice}
+                onChange={handleChange}
+                placeholder="Enter starting price"
+                className="mt-1 w-full rounded-none bg-hardware-white p-2 text-hardware-charcoal"
+                required
+              />
+            </div>
+
+            <div>
+              <Label>Category</Label>
+              <Select
+                value={formData.categoryId.toString()}
+                onValueChange={(value) =>
+                  handleSelectChange('categoryId', value)
+                }
+              >
+                <SelectTrigger className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+                  <SelectValue placeholder="Choose one" />
+                </SelectTrigger>
+                <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+                  <SelectItem value="1" className="rounded-none">
+                    CPU
+                  </SelectItem>
+                  <SelectItem value="2" className="rounded-none">
+                    GPU
+                  </SelectItem>
+                  <SelectItem value="3" className="rounded-none">
+                    Ram
+                  </SelectItem>
+                  <SelectItem value="4" className="rounded-none">
+                    Fans
+                  </SelectItem>
+                  <SelectItem value="5" className="rounded-none">
+                    Storage
+                  </SelectItem>
+                  <SelectItem value="6" className="rounded-none">
+                    Case
+                  </SelectItem>
+                  <SelectItem value="7" className="rounded-none">
+                    Peripheral
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Condition</Label>
+              <Select
+                value={formData.conditionId.toString()}
+                onValueChange={(value) =>
+                  handleSelectChange('conditionId', value)
+                }
+              >
+                <SelectTrigger className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+                  <SelectValue placeholder="Choose one" />
+                </SelectTrigger>
+                <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+                  <SelectItem value="1" className="rounded-none">
+                    New
+                  </SelectItem>
+                  <SelectItem value="2" className="rounded-none">
+                    Like New
+                  </SelectItem>
+                  <SelectItem value="3" className="rounded-none">
+                    Used
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Description</Label>
+              <Textarea
+                name="itemDescription"
+                value={formData.itemDescription}
+                onChange={handleChange}
+                placeholder="Write a brief description about this listing..."
+                className="mt-1 h-40 rounded-none bg-hardware-white p-2 text-hardware-charcoal"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-4 rounded-none bg-hardware-white p-6">
+              <h3 className="font-mono text-lg text-hardware-charcoal">
+                2. Image Upload
+              </h3>
+              <p className="text-hardware-charcoal">
+                Upload a photo for your listing
+              </p>
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+                id="file-upload"
+              />
+
+              <Button
+                type="button"
+                className="rounded-sm bg-hardware-graphite px-4 py-2 font-mono text-white"
+                onClick={() => document.getElementById('file-upload')?.click()}
+              >
+                Choose File
+              </Button>
+
+              <div className="flex h-48 w-full items-center justify-center rounded-none border border-hardware-graphite text-hardware-graphite">
+                {formData.itemImage ? (
+                  <img
+                    src={formData.itemImage}
+                    alt="Preview"
+                    className="h-full w-full object-contain"
+                  />
+                ) : (
+                  <span className="italic">Image Preview</span>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-6 rounded-none bg-hardware-graphite p-6 text-white">
+              <h3 className="font-mono text-lg">3. Important Info</h3>
+              <ul className="space-y-2">
+                <li>• Auctions run for five days from posting</li>
+                <li>
+                  • Listings are subject to{' '}
+                  <span className="font-bold">Terms & Conditions</span>
+                </li>
+              </ul>
+              <div className="flex items-center gap-4 pt-4">
+                <input
+                  type="checkbox"
+                  className="h-5 w-5"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                />
+                <span>I understand & agree</span>
+                <Button
+                  type="submit"
+                  className="ml-auto rounded-sm bg-hardware-blue px-4 py-2 font-mono text-white hover:bg-blue-600"
+                  disabled={!agreedToTerms}
+                >
+                  Add Listing
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
   )
 }
