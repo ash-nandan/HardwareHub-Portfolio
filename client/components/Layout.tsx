@@ -3,9 +3,11 @@ import NavBar from './NavBar'
 
 export default function Layout() {
   return (
-    <div className="bg-hardware-navy flex min-h-screen flex-col text-white">
-      <NavBar />
-      <main className="flex-1 px-10 py-8">
+    <div>
+        <header>
+            <NavBar />
+        </header>
+      <main>
         <Outlet />
       </main>
     </div>
