@@ -43,7 +43,7 @@ export function CreateListing() {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'startingPrice' ? Number(value) : value,
+      [name]: name === 'starting_price' ? Number(value) : value,
     }))
   }
 
@@ -74,7 +74,7 @@ export function CreateListing() {
       reader.onloadend = () => {
         setFormData((prev) => ({
           ...prev,
-          itemImage: reader.result as string,
+          item_image: reader.result as string,
         }))
       }
       reader.readAsDataURL(file)
@@ -97,7 +97,7 @@ export function CreateListing() {
               <Label>Item Name</Label>
               <input
                 type="text"
-                name="itemName"
+                name="item_name"
                 value={formData.item_name}
                 onChange={handleChange}
                 placeholder="Enter item name"
@@ -107,10 +107,10 @@ export function CreateListing() {
             </div>
 
             <div>
-              <Label>Starting Price</Label>
+              <Label>Listing Price</Label>
               <input
                 type="number"
-                name="startingPrice"
+                name="starting_price"
                 value={formData.starting_price}
                 onChange={handleChange}
                 placeholder="Enter starting price"
@@ -124,7 +124,7 @@ export function CreateListing() {
               <Select
                 value={formData.category_id.toString()}
                 onValueChange={(value) =>
-                  handleSelectChange('categoryId', value)
+                  handleSelectChange('category_id', value)
                 }
               >
                 <SelectTrigger className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
@@ -161,7 +161,7 @@ export function CreateListing() {
               <Select
                 value={formData.condition_id.toString()}
                 onValueChange={(value) =>
-                  handleSelectChange('conditionId', value)
+                  handleSelectChange('condition_id', value)
                 }
               >
                 <SelectTrigger className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
@@ -184,7 +184,7 @@ export function CreateListing() {
             <div>
               <Label>Description</Label>
               <Textarea
-                name="itemDescription"
+                name="item_description"
                 value={formData.item_description}
                 onChange={handleChange}
                 placeholder="Write a brief description about this listing..."
