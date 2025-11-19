@@ -76,3 +76,5 @@ export function SingleListing() {
     </div>
   )
 }
+
+export default SingleListing
