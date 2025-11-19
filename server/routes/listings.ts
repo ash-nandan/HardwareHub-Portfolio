@@ -14,4 +14,15 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+router.post('/', async (req, res) => {
+  try {
+    const listingData = req.body
+    const newListing = await db.createListing(listingData)
+    res.status(201).json(newListing)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 export default router

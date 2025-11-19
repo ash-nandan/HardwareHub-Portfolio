@@ -1,5 +1,14 @@
-import { Listing } from 'models/listings'
+import { UserListing, NewListingData, Listing } from 'models/listings'
 import db from './connection'
+
+export async function createListing(
+  listingData: NewListingData,
+): Promise<UserListing> {
+  const [newListing] = await db<UserListing>('user_listings')
+    .insert(listingData)
+    .returning('*')
+  return newListing
+}
 
 export async function getListingById(listingId: number): Promise<Listing> {
   const res = await db('user_listings')
