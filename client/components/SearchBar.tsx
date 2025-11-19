@@ -6,8 +6,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useQuery } from '@tanstack/react-query'
+import { getCategories, getConditions } from '../apis/options'
 
 export function SearchBar() {
+  const {
+    data: catData,
+    isPending: catIsPending,
+    error: catError,
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      return getCategories()
+    },
+  })
+
+  const {
+    data: conData,
+    isPending: conIsPending,
+    error: conError,
+  } = useQuery({
+    queryKey: ['conditions'],
+    queryFn: async () => {
+      return getConditions()
+    },
+  })
+
+  if (catIsPending) {
+    return <p>Loading...</p>
+  }
+
+  if (catError) {
+    return <p>{catError.message}</p>
+  }
+
+  if (!catData) {
+    return <p>Data not found</p>
+  }
+
+  if (conIsPending) {
+    return <p>Loading...</p>
+  }
+
+  if (conError) {
+    return <p>{conError.message}</p>
+  }
+
+  if (!conData) {
+    return <p>Data not found</p>
+  }
+
   return (
     <div>
       <div className="flex items-center justify-center gap-6 bg-hardware-sky px-8 py-6">
@@ -18,7 +66,11 @@ export function SearchBar() {
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
-            <SelectItem value="cpu">CPU</SelectItem>
+            {catData.map((cat) => (
+              <SelectItem key={cat.id} value={cat.name}>
+                {cat.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
@@ -27,9 +79,15 @@ export function SearchBar() {
             <SelectValue placeholder="Condition" />
           </SelectTrigger>
           <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
-            <SelectItem value="used" className="rounded-none">
-              Used
-            </SelectItem>
+            {conData.map((con) => (
+              <SelectItem
+                key={con.id}
+                value={con.description}
+                className="rounded-none"
+              >
+                {con.description}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
