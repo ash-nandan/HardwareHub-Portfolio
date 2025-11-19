@@ -1,22 +1,22 @@
 export interface UserListing {
   id: number
-  userId: number
-  categoryId: number
-  conditionId: number
-  itemName: string
-  startingPrice: number
-  itemDescription: string
-  itemImage: string
+  user_id: number
+  category_id: number
+  condition_id: number
+  item_name: string
+  starting_price: number
+  item_description: string
+  item_image: string
 }
 
 export interface NewListingData {
-  userId: number
-  categoryId: number
-  conditionId: number
-  itemName: string
-  startingPrice: number
-  itemDescription: string
-  itemImage: string
+  user_id: number
+  category_id: number
+  condition_id: number
+  item_name: string
+  starting_price: number
+  item_description: string
+  item_image: string
 }
 export interface Listing {
   listingId: number

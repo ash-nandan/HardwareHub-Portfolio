@@ -16,13 +16,13 @@ import {
 
 export function CreateListing() {
   const [formData, setFormData] = useState<NewListingData>({
-    itemName: '',
-    itemDescription: '',
-    itemImage: '',
-    startingPrice: 0,
-    categoryId: 0,
-    conditionId: 0,
-    userId: 1, // hardcoded till auth is done
+    item_name: '',
+    item_description: '',
+    item_image: '',
+    starting_price: 0,
+    category_id: 0,
+    condition_id: 0,
+    user_id: 1, // hardcoded till auth is done
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
@@ -98,7 +98,7 @@ export function CreateListing() {
               <input
                 type="text"
                 name="itemName"
-                value={formData.itemName}
+                value={formData.item_name}
                 onChange={handleChange}
                 placeholder="Enter item name"
                 className="mt-1 w-full rounded-none bg-hardware-white p-2 text-hardware-charcoal"
@@ -111,7 +111,7 @@ export function CreateListing() {
               <input
                 type="number"
                 name="startingPrice"
-                value={formData.startingPrice}
+                value={formData.starting_price}
                 onChange={handleChange}
                 placeholder="Enter starting price"
                 className="mt-1 w-full rounded-none bg-hardware-white p-2 text-hardware-charcoal"
@@ -122,7 +122,7 @@ export function CreateListing() {
             <div>
               <Label>Category</Label>
               <Select
-                value={formData.categoryId.toString()}
+                value={formData.category_id.toString()}
                 onValueChange={(value) =>
                   handleSelectChange('categoryId', value)
                 }
@@ -159,7 +159,7 @@ export function CreateListing() {
             <div>
               <Label>Condition</Label>
               <Select
-                value={formData.conditionId.toString()}
+                value={formData.condition_id.toString()}
                 onValueChange={(value) =>
                   handleSelectChange('conditionId', value)
                 }
@@ -185,7 +185,7 @@ export function CreateListing() {
               <Label>Description</Label>
               <Textarea
                 name="itemDescription"
-                value={formData.itemDescription}
+                value={formData.item_description}
                 onChange={handleChange}
                 placeholder="Write a brief description about this listing..."
                 className="mt-1 h-40 rounded-none bg-hardware-white p-2 text-hardware-charcoal"
@@ -220,9 +220,9 @@ export function CreateListing() {
               </Button>
 
               <div className="flex h-48 w-full items-center justify-center rounded-none border border-hardware-graphite text-hardware-graphite">
-                {formData.itemImage ? (
+                {formData.item_image ? (
                   <img
-                    src={formData.itemImage}
+                    src={formData.item_image}
                     alt="Preview"
                     className="h-full w-full object-contain"
                   />
