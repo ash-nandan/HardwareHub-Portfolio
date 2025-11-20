@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const listingData = req.body
+    const listingData = { ...req.body, created_at: new Date() }
     const newListing = await db.createListing(listingData)
     res.status(201).json(newListing)
   } catch (error) {
