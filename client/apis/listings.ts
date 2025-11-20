@@ -43,7 +43,7 @@ export async function searchListings(
 }
 
 export async function getRecentListings() {
-  const res = await request.get(`${rootURL}/listings`)
+  const res = await request.get(`${rootURL}/listings/recent`)
 
   return res.body as ListingActiveTime[]
 }
