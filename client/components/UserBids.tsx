@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getUserBids } from '../apis/bids'
 import { useNavigate, useParams } from 'react-router'
 import { ChevronRight } from 'lucide-react'
+import { timeAgo } from '../utils/timeAgo'
 
 export function UserBids() {
   const params = useParams()
@@ -42,7 +43,7 @@ export function UserBids() {
             ></img>
             <div className="mb-12 max-w-md rounded-none bg-hardware-white p-6">
               <h3 className="mb-4 font-mono text-lg">{list.itemName}</h3>
-              <p className="mb-4 text-sm">{`Starting Price: $${list.startingPrice.toFixed(2)}`}</p>
+              <p className="mb-8 text-sm">{`Starting Price: $${list.startingPrice.toFixed(2)}`}</p>
               <p className="font-mono text-sm font-bold">Your Bids</p>
               {data.map((bid) => (
                 <div
@@ -50,7 +51,7 @@ export function UserBids() {
                   key={bid.bidId}
                 >
                   <p>{`$${bid.bidPrice.toFixed(2)}`}</p>
-                  <p>{bid.bidCreated}</p>
+                  <p>{timeAgo(bid.bidCreated)}</p>
                 </div>
               ))}
               <div className="flex justify-end">
