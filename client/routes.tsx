@@ -5,6 +5,7 @@ import { CreateListing } from './components/CreateListing.tsx'
 import ProfilePage from './components/Profile.tsx'
 import { RecentListings } from './components/RecentListings.tsx'
 import Layout from './components/Layout.tsx'
+import { UserBids } from './components/UserBids.tsx'
 import { EditListing } from './components/EditListing.tsx'
 
 export default createRoutesFromElements(
@@ -13,10 +14,11 @@ export default createRoutesFromElements(
       <Route index element={<RecentListings />} />
       <Route path="playground" element={<Playground />} />
       <Route path="listings" />
-      <Route path="listings/:id" element={<SingleListing />} />
       <Route path="listings/create" element={<CreateListing />} />
-      <Route path="profile" element={<ProfilePage />} />
+      <Route path="listings/:id" element={<SingleListing />} />
       <Route path="listings/:id/edit" element={<EditListing />} />
+      <Route path="profile" element={<ProfilePage />} />
+      <Route path="bids/:id" element={<UserBids />} />
     </Route>
   </>,
 )
