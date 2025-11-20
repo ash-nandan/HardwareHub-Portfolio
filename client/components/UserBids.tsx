@@ -3,6 +3,7 @@ import { getUserBids } from '../apis/bids'
 import { useNavigate, useParams } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { timeAgo } from '../utils/timeAgo'
+import { groupBidsByListingId } from '../utils/groupBids'
 
 export function UserBids() {
   const params = useParams()
@@ -28,35 +29,52 @@ export function UserBids() {
     return <p>Data not found</p>
   }
 
+  //use helper function to group bids by listing
+  const grouped = groupBidsByListingId(data)
+
+  //make array of listing ids, map over these
+  const listings = Object.keys(grouped)
+    .map(Number)
+    .map((listingId) => {
+      const bids = grouped[listingId] //single out each specific listings bids
+      const listing = bids[0] //single out a specific bid to reference for details
+
+      return {
+        listingId,
+        listing,
+        bids,
+      }
+    })
+
   return (
     <div>
       <h1 className="py-8 text-center font-mono text-3xl text-white">
         My Bids
       </h1>
       <div className="flex flex-wrap justify-center space-x-6">
-        {data.map((list) => (
-          <div key={list.listingId}>
+        {listings.map(({ listingId, listing, bids }) => (
+          <div key={listingId}>
             <img
-              src={`/images-listings/${list.itemImage}`}
-              alt={list.itemName}
+              src={`/images-listings/${listing.itemImage}`}
+              alt={listing.itemName}
               className="max-w-md"
             ></img>
             <div className="mb-12 max-w-md rounded-none bg-hardware-white p-6">
-              <h3 className="mb-4 font-mono text-lg">{list.itemName}</h3>
-              <p className="mb-8 text-sm">{`Starting Price: $${list.startingPrice.toFixed(2)}`}</p>
+              <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
+              <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(2)}`}</p>
               <p className="font-mono text-sm font-bold">Your Bids</p>
-              {data.map((bid) => (
+              {bids.map((b) => (
                 <div
                   className="my-4 flex max-w-56 justify-between pl-6 text-sm"
-                  key={bid.bidId}
+                  key={b.bidId}
                 >
-                  <p>{`$${bid.bidPrice.toFixed(2)}`}</p>
-                  <p>{timeAgo(bid.bidCreated)}</p>
+                  <p>{`$${b.bidPrice.toFixed(2)}`}</p>
+                  <p className="font-style: italic">{timeAgo(b.bidCreated)}</p>
                 </div>
               ))}
               <div className="flex justify-end">
                 <ChevronRight
-                  onClick={() => navigate(`/listings/${list.listingId}`)}
+                  onClick={() => navigate(`/listings/${listing.listingId}`)}
                 />
               </div>
             </div>
