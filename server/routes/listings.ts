@@ -17,6 +17,16 @@ router.get('/search', async (req, res) => {
   }
 })
 
+router.get('/', async (req, res) => {
+  try {
+    const recentListings = await db.getAllRecentListings()
+    res.json(recentListings)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 router.get('/:id', async (req, res) => {
   try {
     const listingId = Number(req.params.id)

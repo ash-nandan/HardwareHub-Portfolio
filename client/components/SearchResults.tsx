@@ -7,8 +7,6 @@ export function SearchResults() {
   const { state } = useLocation()
   const { catId, conId, keywords } = state
   const navigate = useNavigate()
-  console.log('state:', state)
-  console.log('received values', catId, conId, keywords)
 
   const { data, isPending, error } = useQuery({
     queryKey: ['search', catId, conId, keywords],
