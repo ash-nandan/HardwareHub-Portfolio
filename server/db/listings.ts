@@ -77,6 +77,10 @@ export async function searchAllListings(
     .split(/\s+/) //split to new string at a space of one or more
     .filter((w) => w.length > 0) //filter out empty strings
 
+  if (keywordStrings.length === 0) {
+    return res //if no keywords entered, return all category + keyword matches
+  }
+
   const matches = res.filter((listing) => {
     const searchText =
       `${listing.itemName} ${listing.itemDescription}`.toLowerCase()

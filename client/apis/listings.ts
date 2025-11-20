@@ -24,3 +24,15 @@ export async function updateListing(
   return req.body as UserListing
 }
 // used Partial just in case you dont want to update every thing in the listing
+
+export async function searchListings(
+  catId: number,
+  conId: number,
+  keywords: string,
+) {
+  const res = await request.get(
+    `${rootURL}/listings/search?catId=${catId}&conId=${conId}&keywords=${keywords}`,
+  )
+
+  return res.body as Listing[]
+}
