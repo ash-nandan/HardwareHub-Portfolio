@@ -81,7 +81,11 @@ export default function ProfilePage() {
               </>
             )}
           </section>
-          <ProfilePictureCard imageUrl={profile.image_url} />
+          <ProfilePictureCard
+            imageUrl={profile.image_url}
+            profileId={profile.id}
+            onUpdated={(updated) => setProfile(updated)}
+          />
         </div>
       </main>
     </div>
@@ -109,21 +113,57 @@ function DetailRow({ label, value, multiline = false }: DetailRowProps) {
 
 interface ProfilePictureCardProps {
   imageUrl?: string | null
+  profileId: number
+  onUpdated: (updated: Profile) => void
 }
 
-function ProfilePictureCard({ imageUrl }: ProfilePictureCardProps) {
+function ProfilePictureCard({
+  imageUrl,
+  profileId,
+  onUpdated,
+}: ProfilePictureCardProps) {
   const hasImage = Boolean(imageUrl)
+  const [uploading, setUploading] = useState(false)
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const formData = new FormData()
+    formData.append('image', file)
+
+    try {
+      setUploading(true)
+      const res = await fetch(`/api/profile/${profileId}/image`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!res.ok) {
+        console.error('Failed to upload image')
+        return
+      }
+      const updated: Profile = await res.json()
+      onUpdated(updated)
+    } catch (err) {
+      console.error('Error uploading image', err)
+    } finally {
+      setUploading(false)
+    }
+  }
 
   return (
     <section className="rounded-xl bg-[#F3F6F9] px-8 py-10 text-[#2A2A32] shadow-lg">
       <h2 className="mb-2 text-lg font-semibold tracking-wide">
         Profile Picture
       </h2>
-      <p className="mb-4 text-sm">Upload Profile Picture</p>
+      <p className="mb-4 text-sm">
+        {uploading ? 'Uploading...' : 'Upload Profile Picture'}
+      </p>
 
       <label className="inline-block cursor-pointer rounded-md bg-[#2A2A32] px-4 py-2 text-sm font-medium text-[#F3F6F9] hover:bg-[#3D3D45]">
         Choose File
-        <input type="file" className="hidden" />
+        <input type="file" className="hidden" onChange={handleFileChange} />
       </label>
       <div className="mt-6 flex items-center justify-center">
         <div className="flex h-40 w-32 items-center justify-center border border-[#D3D8DE] bg-[#F3F6F9] text-xs text-[#3D3D45]">

@@ -10,7 +10,6 @@ export default createRoutesFromElements(
   <>
     <Route path="/" element={<Layout />}>
       <Route index element={<RecentListings />} />
-      {/* <Route index element={<ProfilePage />} /> */}
       <Route path="playground" element={<Playground />} />
       <Route path="listings" />
       <Route path="listings/:id" element={<SingleListing />} />

@@ -10,6 +10,7 @@ server.use(express.urlencoded({ limit: '50mb', extended: true }))
 server.use('/api/profile', profileRoutes)
 
 server.use('/api/v1/listings', listings)
+server.use(express.static('public'))
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))
