@@ -8,6 +8,8 @@ export function up(knex) {
     table.integer('starting_price').notNullable()
     table.text('item_description').notNullable()
     table.string('item_image').notNullable()
+    table.timestamp('created_at').notNullable()
+    table.boolean('is_active').notNullable().defaultTo(true)
   })
 }
 

@@ -27,6 +27,16 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/', async (req, res) => {
+  try {
+    const recentListings = await db.getAllRecentListings()
+    res.json(recentListings)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 router.get('/:id', async (req, res) => {
   try {
     const listingId = Number(req.params.id)
@@ -40,7 +50,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const listingData = req.body
+    const listingData = { ...req.body, created_at: new Date() }
     const newListing = await db.createListing(listingData)
     res.status(201).json(newListing)
   } catch (error) {

@@ -28,3 +28,16 @@ export interface Listing {
   itemImage: string
   username: string
 }
+
+export interface ListingActiveTime {
+  listingId: number
+  categoryName: string
+  conditionDescription: string
+  itemName: string
+  startingPrice: number
+  itemDescription: string
+  itemImage: string
+  username: string
+  createdAt: string
+  isActive: boolean
+}
