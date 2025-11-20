@@ -43,7 +43,6 @@ export function RecentListings() {
               <img
                 src={`/images-listings/${listing.itemImage}`}
                 alt={listing.itemName}
-                className=""
               ></img>
               <div className="mb-12 rounded-none bg-hardware-white p-6">
                 <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
