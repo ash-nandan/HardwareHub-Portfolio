@@ -21,6 +21,11 @@ export function editListing() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
+  const { data: listing, isLoading } = useQuery({
+    queryKey: ['listing', listingId],
+    queryFn: () => getSingleListing(listingId),
+  })
+
   const [formData, setFormData] = useState<Partial<UserListing>>({
     item_name: '',
     item_description: '',
@@ -30,7 +35,6 @@ export function editListing() {
     condition_id: 0,
   })
 
-  const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [imageSource, setImageSource] = useState<'upload' | 'Preset'>('upload')
 
   const presetImages = [
@@ -42,13 +46,25 @@ export function editListing() {
     '/images-listings/listing6.jpg',
   ]
 
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
+  useEffect(() => {
+    if (listing) {
+      setFormData({
+        item_name: listing.itemName,
+        item_description: listing.itemDescription,
+        item_image: listing.itemImage,
+        starting_price: listing.startingPrice,
+        category_id: listing.categoryId,
+        condition_id: listing.conditionId,
+      })
+    }
+  }, [listing])
 
-  const createListingMutation = useMutation({
-    mutationFn: createNewLisitng,
+  const UpdateMutation = useMutation({
+    mutationFn: (data: Partial<UserListing>) => apiUpdate(listingId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['listings'] })
+      queryClient.invalidateQueries({ queryKey: ['listing', listingId] })
+      navigate(`/listing/${listingId}`)
     },
   })
 
@@ -71,17 +87,9 @@ export function editListing() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (!agreedToTerms) {
-      alert('Please agree to the terms and conditions')
-      return
-    }
-
-    createListingMutation.mutate(formData, {
-      onSuccess: () => {
-        navigate('/')
-      },
-    })
+    UpdateMutation.mutate(formData)
   }
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
