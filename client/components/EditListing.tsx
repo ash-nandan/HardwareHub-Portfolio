@@ -139,7 +139,7 @@ export function EditListing() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-center font-mono text-3xl text-white">
+      <h1 className="py-8 text-center font-mono text-3xl text-white">
         Edit Your Listing
       </h1>
       <Button
