@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { UserListing } from '../../models/listings'
 import { updateListing as apiUpdate, getSingleListing } from '../apis/listings'
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -57,12 +57,12 @@ export function EditListing() {
     }
   }, [listing])
 
-  const UpdateMutation = useMutation({
+  const updateMutation = useMutation({
     mutationFn: (data: Partial<UserListing>) => apiUpdate(listingId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['listings'] })
       queryClient.invalidateQueries({ queryKey: ['listing', listingId] })
-      navigate(`/listing/${listingId}`)
+      navigate(`/listings/${listingId}`)
     },
   })
 
@@ -85,7 +85,7 @@ export function EditListing() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    UpdateMutation.mutate(formData)
+    updateMutation.mutate(formData)
   }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -116,10 +116,10 @@ export function EditListing() {
   return (
     <section className="space-y-6">
       <h1 className="text-center font-mono text-3xl text-white">
-        Create Your Listing
+        Edit Your Listing
       </h1>
       <Button
-        onClick={() => navigate('/listings')}
+        onClick={() => navigate(`/listings/${listingId}`)}
         variant="ghost"
         className="m-5 flex text-3xl text-hardware-white"
       >
@@ -130,7 +130,7 @@ export function EditListing() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="space-y-6 rounded-none bg-hardware-blue p-8 text-white">
             <h3 className="mb-4 text-center font-mono text-xl">
-              1. Fill in details
+              Update Details
             </h3>
 
             <div>
@@ -162,7 +162,7 @@ export function EditListing() {
             <div>
               <Label>Category</Label>
               <Select
-                value={formData.category_id.toString()}
+                value={formData.category_id?.toString()}
                 onValueChange={(value) =>
                   handleSelectChange('category_id', value)
                 }
@@ -199,7 +199,7 @@ export function EditListing() {
             <div>
               <Label>Condition</Label>
               <Select
-                value={formData.condition_id.toString()}
+                value={formData.condition_id?.toString()}
                 onValueChange={(value) =>
                   handleSelectChange('condition_id', value)
                 }
@@ -327,28 +327,19 @@ export function EditListing() {
             </div>
 
             <div className="space-y-6 rounded-none bg-hardware-graphite p-6 text-white">
-              <h3 className="font-mono text-lg">3. Important Info</h3>
-              <ul className="space-y-2">
-                <li>• Auctions run for five days from posting</li>
-                <li>
-                  • Listings are subject to{' '}
-                  <span className="font-bold">Terms & Conditions</span>
-                </li>
-              </ul>
-              <div className="flex items-center gap-4 pt-4">
-                <input
-                  type="checkbox"
-                  className="h-5 w-5"
-                  checked={agreedToTerms}
-                  onChange={(e) => setAgreedToTerms(e.target.checked)}
-                />
-                <span>I understand & agree</span>
+              <div className="flex gap-4">
                 <Button
                   type="submit"
-                  className="ml-auto rounded-sm bg-hardware-blue px-4 py-2 font-mono text-white hover:bg-blue-600"
-                  disabled={!agreedToTerms}
+                  className="flex-1 rounded-sm bg-hardware-blue px-4 py-2 font-mono text-white hover:bg-blue-600"
                 >
-                  Add Listing
+                  Save Changes
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => navigate(`/listings/${listingId}`)}
+                  className="ml-auto rounded-sm bg-hardware-blue px-4 py-2 font-mono text-white hover:bg-blue-600"
+                >
+                  Cancel
                 </Button>
               </div>
             </div>
