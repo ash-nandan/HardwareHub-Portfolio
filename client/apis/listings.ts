@@ -1,6 +1,6 @@
 import request from 'superagent'
 import { Listing, NewListingData, UserListing } from '../../models/listings'
-import { User } from '@auth0/auth0-react'
+//import { User } from '@auth0/auth0-react'
 const rootURL = new URL(`/api/v1`, document.baseURI)
 
 export async function getSingleListing(listingId: number) {
