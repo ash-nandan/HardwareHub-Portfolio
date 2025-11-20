@@ -7,7 +7,7 @@ export function up(knex) {
       .notNullable()
       .references('user_listings.id')
     table.integer('bid_price').notNullable()
-    table.timestamp('created_at').defaultTo(knex.fn.now())
+    table.timestamp('created_at').notNullable()
   })
 }
 
