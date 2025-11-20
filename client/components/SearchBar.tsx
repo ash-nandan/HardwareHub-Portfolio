@@ -10,7 +10,6 @@ import { useQuery } from '@tanstack/react-query'
 import { getCategories, getConditions } from '../apis/options'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { searchListings } from 'client/apis/listings'
 import { useNavigate } from 'react-router'
 
 export function SearchBar() {
@@ -42,14 +41,6 @@ export function SearchBar() {
     },
   })
 
-  const { refetch } = useQuery({
-    queryKey: ['listings', catId, conId, keywords],
-    queryFn: async () => {
-      return searchListings(catId, conId, keywords)
-    },
-    enabled: false, //usequery disabled until refetch triggered
-  })
-
   if (catIsPending) {
     return <p>Loading...</p>
   }
@@ -74,11 +65,10 @@ export function SearchBar() {
     return <p>Data not found</p>
   }
 
-  //search query disabled so no if checks needed
-
   const handleClick = () => {
-    refetch()
-    navigate('/search/results')
+    navigate('/search/results', {
+      state: { catId, conId, keywords },
+    })
   }
 
   return (
