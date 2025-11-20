@@ -11,14 +11,15 @@ export interface UpdateListingProps {
     item_image?: string
   }
 }
-export function updateListing(props: UpdateListingProps) {
+export function UpdateListing(props: UpdateListingProps) {
   const { listingId, updatedData } = props
+  const queryClient = useQueryClient()
 
-  const handleUpdate = async () => {
-    try {
-      const response = await updateListing(listingId, updatedData)
-    } catch (error) {
-      console.error('Error updating your listing', error)
-    }
-  }
+  const updateMutation = useMutation({
+    mutationFn: (data: UpdateListingProps) =>
+      apiUpdate(data.listingId, data.updatedData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['listings'] })
+    },
+  })
 }
