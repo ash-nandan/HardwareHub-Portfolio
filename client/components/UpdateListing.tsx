@@ -1,15 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { updateListing as apiUpdate } from 'client/apis/listings'
+import { updateListing as apiUpdate } from '../apis/listings'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { UserListing } from 'models/listings'
 
 export interface UpdateListingProps {
   listingId: number
-  updatedData: {
-    item_name?: string
-    starting_price?: number
-    item_description?: string
-    item_image?: string
-  }
+  updatedData: Partial<UserListing>
 }
 export function UpdateListing(props: UpdateListingProps) {
   const { listingId, updatedData } = props
@@ -23,7 +19,18 @@ export function UpdateListing(props: UpdateListingProps) {
     },
   })
 
-  const handleUpdate = async () => {
+  const handleUpdate = () => {
     updateMutation.mutate({ listingId, updatedData })
   }
+
+  return (
+    <div>
+      <Button
+        className="mt-6 rounded-sm bg-hardware-charcoal px-4 py-2 text-sm text-white "
+        onClick={handleUpdate}
+      >
+        Update Listing
+      </Button>
+    </div>
+  )
 }
