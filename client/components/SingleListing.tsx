@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { getSingleListing } from '../apis/listings'
 import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
+import { DeleteListing } from './DeleteListing'
+import { UpdateListing } from './UpdateListingButton'
 
 export function SingleListing() {
   const params = useParams()
@@ -59,10 +61,10 @@ export function SingleListing() {
           <p className="text-sm">
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
-
-          <Button className="mt-6 rounded-sm bg-hardware-charcoal px-4 py-2 text-sm text-white">
-            Delete Listing
-          </Button>
+          <div className="flex gap-4">
+            <DeleteListing listingId={data.listingId} />
+            <UpdateListing listingId={data.listingId} />
+          </div>
         </div>
       </div>
 

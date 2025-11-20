@@ -30,3 +30,19 @@ export async function getListingById(listingId: number): Promise<Listing> {
 
   return res
 }
+
+export async function updateListing(
+  listingData: UserListing,
+): Promise<UserListing> {
+  const [updatedListing] = await db<UserListing>('user_listings')
+    .where({
+      id: listingData.id,
+    })
+    .update(listingData)
+    .returning('*')
+  return updatedListing
+}
+
+export async function deleteListing(listingId: number): Promise<number> {
+  return db('user_listings').where({ 'user_listings.id': listingId }).del()
+}
