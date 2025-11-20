@@ -4,6 +4,7 @@ import { getSingleListing } from '../apis/listings'
 import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { DeleteListing } from './DeleteListing'
+import { UpdateListing } from './UpdateListingButton'
 
 export function SingleListing() {
   const params = useParams()
@@ -60,8 +61,10 @@ export function SingleListing() {
           <p className="text-sm">
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
-
-          <DeleteListing listingId={data.listingId} />
+          <div className="flex gap-4">
+            <DeleteListing listingId={data.listingId} />
+            <UpdateListing listingId={data.listingId} />
+          </div>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import request from 'superagent'
-import { Listing, NewListingData } from '../../models/listings'
+import { Listing, NewListingData, UserListing } from '../../models/listings'
+//import { User } from '@auth0/auth0-react'
 const rootURL = new URL(`/api/v1`, document.baseURI)
 
 export async function getSingleListing(listingId: number) {
@@ -12,3 +13,14 @@ export async function createNewLisitng(listingData: NewListingData) {
   const res = await request.post(`${rootURL}/listings`).send(listingData)
   return res.body as Listing
 }
+
+export async function updateListing(
+  listingId: number,
+  listingData: Partial<UserListing>,
+) {
+  const req = await request
+    .patch(`${rootURL}/listings/${listingId}`)
+    .send(listingData)
+  return req.body as UserListing
+}
+// used Partial just in case you dont want to update every thing in the listing

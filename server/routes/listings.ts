@@ -25,6 +25,19 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.patch('/:id', async (req, res) => {
+  try {
+    // TODO add auth checks to ensure only the owner can update
+    const listingId = Number(req.params.id)
+    const listingData = { ...req.body, id: listingId }
+    const updatedListing = await db.updateListing(listingData)
+    res.json(updatedListing)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('something went wrong')
+  }
+})
+
 router.delete('/:id', async (req, res) => {
   try {
     const listingId = Number(req.params.id)
