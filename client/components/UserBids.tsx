@@ -51,35 +51,38 @@ export function UserBids() {
       <h1 className="py-8 text-center font-mono text-3xl text-white">
         My Bids
       </h1>
-      <div className="flex flex-wrap justify-center space-x-6">
-        {listings.map(({ listingId, listing, bids }) => (
-          <div key={listingId}>
-            <img
-              src={`/images-listings/${listing.itemImage}`}
-              alt={listing.itemName}
-              className="max-w-md"
-            ></img>
-            <div className="mb-12 max-w-md rounded-none bg-hardware-white p-6">
-              <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
-              <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(2)}`}</p>
-              <p className="font-mono text-sm font-bold">Your Bids</p>
-              {bids.map((b) => (
-                <div
-                  className="my-4 flex max-w-56 justify-between pl-6 text-sm"
-                  key={b.bidId}
-                >
-                  <p>{`$${b.bidPrice.toFixed(2)}`}</p>
-                  <p className="font-style: italic">{timeAgo(b.bidCreated)}</p>
+      <div className="ml-4 mr-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 place-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {listings.map(({ listingId, listing, bids }) => (
+            <div key={listingId}>
+              <img
+                src={`/images-listings/${listing.itemImage}`}
+                alt={listing.itemName}
+              ></img>
+              <div className="mb-12 rounded-none bg-hardware-white p-6">
+                <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
+                <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(2)}`}</p>
+                <p className="font-mono text-sm font-bold">Your Bids</p>
+                {bids.map((b) => (
+                  <div
+                    className="my-4 flex max-w-56 justify-between pl-6 text-sm"
+                    key={b.bidId}
+                  >
+                    <p>{`$${b.bidPrice.toFixed(2)}`}</p>
+                    <p className="font-style: italic">
+                      {timeAgo(b.bidCreated)}
+                    </p>
+                  </div>
+                ))}
+                <div className="flex justify-end">
+                  <ChevronRight
+                    onClick={() => navigate(`/listings/${listing.listingId}`)}
+                  />
                 </div>
-              ))}
-              <div className="flex justify-end">
-                <ChevronRight
-                  onClick={() => navigate(`/listings/${listing.listingId}`)}
-                />
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
