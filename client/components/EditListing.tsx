@@ -15,15 +15,19 @@ import {
 } from '@/components/ui/select'
 import { ArrowLeft } from 'lucide-react'
 
-export function CreateListing() {
-  const [formData, setFormData] = useState<NewListingData>({
+export function editListing() {
+  const { id } = useParams()
+  const listingId = Number(id)
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  const [formData, setFormData] = useState<Partial<UserListing>>({
     item_name: '',
     item_description: '',
     item_image: '',
     starting_price: 0,
     category_id: 0,
     condition_id: 0,
-    user_id: 1, // hardcoded till auth is done
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
