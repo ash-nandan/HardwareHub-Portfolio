@@ -71,6 +71,8 @@ export function SearchBar() {
     })
   }
 
+  const searchDisabled = catId === 0 || conId === 0
+
   return (
     <div>
       <div className="flex items-center justify-center gap-6 bg-hardware-sky px-8 py-6">
@@ -111,8 +113,12 @@ export function SearchBar() {
           placeholder="Keywords"
           className="text-md w-96 rounded-none bg-hardware-white p-1 text-hardware-charcoal"
         />
-        <Button onClick={handleClick}>
-          <span className="text-2xl">🔍</span>
+        <Button
+          disabled={searchDisabled}
+          className="group"
+          onClick={handleClick}
+        >
+          <span className="text-2xl group-disabled:opacity-30">🔍</span>
         </Button>
       </div>
     </div>
