@@ -8,8 +8,17 @@ import {
 } from '@/components/ui/select'
 import { useQuery } from '@tanstack/react-query'
 import { getCategories, getConditions } from '../apis/options'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { useNavigate } from 'react-router'
 
 export function SearchBar() {
+  const [catId, setCatId] = useState(0)
+  const [conId, setConId] = useState(0)
+  const [keywords, setKeywords] = useState('')
+
+  const navigate = useNavigate()
+
   const {
     data: catData,
     isPending: catIsPending,
@@ -56,25 +65,33 @@ export function SearchBar() {
     return <p>Data not found</p>
   }
 
+  const handleClick = () => {
+    navigate('/search/results', {
+      state: { catId, conId, keywords },
+    })
+  }
+
+  const searchDisabled = catId === 0 || conId === 0
+
   return (
     <div>
       <div className="flex items-center justify-center gap-6 bg-hardware-sky px-8 py-6">
         <span className="font-mono text-hardware-charcoal">Search</span>
 
-        <Select>
+        <Select onValueChange={(value) => setCatId(Number(value))}>
           <SelectTrigger className="w-80 rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
             {catData.map((cat) => (
-              <SelectItem key={cat.id} value={cat.name}>
+              <SelectItem key={cat.id} value={String(cat.id)}>
                 {cat.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
 
-        <Select>
+        <Select onValueChange={(value) => setConId(Number(value))}>
           <SelectTrigger className="w-80 rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
             <SelectValue placeholder="Condition" />
           </SelectTrigger>
@@ -82,7 +99,7 @@ export function SearchBar() {
             {conData.map((con) => (
               <SelectItem
                 key={con.id}
-                value={con.description}
+                value={String(con.id)}
                 className="rounded-none"
               >
                 {con.description}
@@ -92,11 +109,17 @@ export function SearchBar() {
         </Select>
 
         <Input
+          onChange={(e) => setKeywords(e.target.value)}
           placeholder="Keywords"
           className="text-md w-96 rounded-none bg-hardware-white p-1 text-hardware-charcoal"
         />
-
-        <span className="text-2xl">🔍</span>
+        <Button
+          disabled={searchDisabled}
+          className="group"
+          onClick={handleClick}
+        >
+          <span className="text-2xl group-disabled:opacity-20">🔍</span>
+        </Button>
       </div>
     </div>
   )

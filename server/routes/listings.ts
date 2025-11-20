@@ -3,6 +3,20 @@ import * as db from '../db/listings'
 
 const router = express.Router()
 
+router.get('/search', async (req, res) => {
+  try {
+    const catId = Number(req.query.catId)
+    const conId = Number(req.query.conId)
+    const keywords = String(req.query.keywords)
+
+    const listing = await db.searchAllListings(catId, conId, keywords)
+    res.json(listing)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 router.get('/:id', async (req, res) => {
   try {
     const listingId = Number(req.params.id)
