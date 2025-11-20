@@ -1,5 +1,10 @@
 import request from 'superagent'
-import { Listing, NewListingData, UserListing } from '../../models/listings'
+import {
+  Listing,
+  ListingActiveTime,
+  NewListingData,
+  UserListing,
+} from '../../models/listings'
 //import { User } from '@auth0/auth0-react'
 const rootURL = new URL(`/api/v1`, document.baseURI)
 
@@ -35,4 +40,10 @@ export async function searchListings(
   )
 
   return res.body as Listing[]
+}
+
+export async function getRecentListings() {
+  const res = await request.get(`${rootURL}/listings`)
+
+  return res.body as ListingActiveTime[]
 }
