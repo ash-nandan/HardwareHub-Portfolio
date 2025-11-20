@@ -79,6 +79,19 @@ export async function seed(knex) {
       created_at: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
       is_active: false,
     },
+    {
+      id: 7,
+      user_id: 2,
+      category_id: 1,
+      condition_id: 2,
+      item_name: 'ADATA XPG SX8200 Pro 512GB NVMe SSD',
+      starting_price: 75,
+      item_description:
+        'Fast and reliable NVMe SSD ideal for gaming and productivity. Lightly used with excellent health status.',
+      item_image: 'listing1.jpg',
+      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 - 6),
+      is_active: true,
+    },
   ])
 }
 
