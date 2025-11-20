@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { UserListing } from '../../models/listings'
 import { updateListing as apiUpdate, getSingleListing } from '../apis/listings'
 import { useState, ChangeEvent, FormEvent } from 'react'
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 import { ArrowLeft } from 'lucide-react'
 
-export function editListing() {
+export function EditListing() {
   const { id } = useParams()
   const listingId = Number(id)
   const navigate = useNavigate()
@@ -53,8 +53,6 @@ export function editListing() {
         item_description: listing.itemDescription,
         item_image: listing.itemImage,
         starting_price: listing.startingPrice,
-        category_id: listing.categoryId,
-        condition_id: listing.conditionId,
       })
     }
   }, [listing])
@@ -109,6 +107,10 @@ export function editListing() {
       ...prev,
       item_image: imagePath,
     }))
+  }
+
+  if (isLoading) {
+    return <div className="text-center text-white">Loading...</div>
   }
 
   return (
