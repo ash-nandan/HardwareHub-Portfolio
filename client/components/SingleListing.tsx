@@ -4,7 +4,7 @@ import { getSingleListing } from '../apis/listings'
 import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { DeleteListing } from './DeleteListing'
-import { UpdateListing } from './UpdateListing'
+import { UpdateListing } from './UpdateListingButton'
 
 export function SingleListing() {
   const params = useParams()
