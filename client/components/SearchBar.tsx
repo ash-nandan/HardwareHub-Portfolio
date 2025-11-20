@@ -118,7 +118,7 @@ export function SearchBar() {
           className="group"
           onClick={handleClick}
         >
-          <span className="text-2xl group-disabled:opacity-30">🔍</span>
+          <span className="text-2xl group-disabled:opacity-20">🔍</span>
         </Button>
       </div>
     </div>
