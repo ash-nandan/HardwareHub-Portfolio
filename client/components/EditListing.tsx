@@ -26,6 +26,28 @@ export function EditListing() {
     queryFn: () => getSingleListing(listingId),
   })
 
+  const getCategoryId = (categoryName: string): number => {
+    const categories: Record<string, number> = {
+      CPU: 1,
+      GPU: 2,
+      Ram: 3,
+      Fans: 4,
+      Storage: 5,
+      Case: 6,
+      Peripheral: 7,
+    }
+    return categories[categoryName] || 1
+  }
+
+  const getConditionId = (conditionDescription: string): number => {
+    const conditions: Record<string, number> = {
+      New: 1,
+      'Like New': 2,
+      Used: 3,
+    }
+    return conditions[conditionDescription] || 1
+  }
+
   const [formData, setFormData] = useState<Partial<UserListing>>({
     item_name: '',
     item_description: '',
@@ -53,6 +75,8 @@ export function EditListing() {
         item_description: listing.itemDescription,
         item_image: listing.itemImage,
         starting_price: listing.startingPrice,
+        category_id: getCategoryId(listing.categoryName),
+        condition_id: getConditionId(listing.conditionDescription),
       })
     }
   }, [listing])
