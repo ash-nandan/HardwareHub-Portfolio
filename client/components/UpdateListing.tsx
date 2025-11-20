@@ -22,4 +22,8 @@ export function UpdateListing(props: UpdateListingProps) {
       queryClient.invalidateQueries({ queryKey: ['listings'] })
     },
   })
+
+  const handleUpdate = async () => {
+    updateMutation.mutate({ listingId, updatedData })
+  }
 }
