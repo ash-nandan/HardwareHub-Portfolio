@@ -63,7 +63,7 @@ export function SingleListing() {
           </p>
           <div className="flex gap-4">
             <DeleteListing listingId={data.listingId} />
-            <UpdateListing listingId={data.listingId} updatedData={{}} />
+            <UpdateListing listingId={data.listingId} />
           </div>
         </div>
       </div>

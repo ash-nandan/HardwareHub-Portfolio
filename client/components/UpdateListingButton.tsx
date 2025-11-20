@@ -1,26 +1,15 @@
 import { Button } from '@/components/ui/button'
-import { updateListing as apiUpdate } from '../apis/listings'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { UserListing } from 'models/listings'
+import { useNavigate } from 'react-router'
 
 export interface UpdateListingProps {
   listingId: number
-  updatedData: Partial<UserListing>
 }
 export function UpdateListing(props: UpdateListingProps) {
-  const { listingId, updatedData } = props
-  const queryClient = useQueryClient()
-
-  const updateMutation = useMutation({
-    mutationFn: (data: UpdateListingProps) =>
-      apiUpdate(data.listingId, data.updatedData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['listings'] })
-    },
-  })
+  const { listingId } = props
+  const navigate = useNavigate()
 
   const handleUpdate = () => {
-    updateMutation.mutate({ listingId, updatedData })
+    navigate(`/listings/${listingId}/edit`)
   }
 
   return (
