@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+//import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 import {
   DropdownMenu,
@@ -9,6 +9,7 @@ import {
 import { Menu } from 'lucide-react'
 import { Link } from 'react-router'
 import LoginButton from './LoginButton'
+import SignOutButton from './SignOutButton'
 
 export default function NavBar() {
   return (
@@ -52,7 +53,7 @@ export default function NavBar() {
               <Link to="/profile">View Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="rounded-none p-2">
-              Sign Out
+              <SignOutButton />
             </DropdownMenuItem>
           </div>
         </DropdownMenuContent>
