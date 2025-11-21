@@ -21,7 +21,7 @@ export function DeleteListing({ listingId }: DeleteListingProps) {
       <Button
         onClick={handleDelete}
         disabled={deleteListing.isPending}
-        className="mt-6 rounded-sm bg-hardware-charcoal px-4 py-2 text-sm text-white"
+        className="mt-6 rounded-sm bg-hardware-charcoal px-4 py-2 text-sm text-white hover:bg-red-700/90"
       >
         {deleteListing.isPending ? 'Deleting...' : 'Delete Listing'}
       </Button>
