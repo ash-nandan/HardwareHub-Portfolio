@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu'
 import { Menu } from 'lucide-react'
+import { Link } from 'react-router'
 
 export default function NavBar() {
   return (
@@ -46,8 +47,8 @@ export default function NavBar() {
 
         <DropdownMenuContent className="mt-2 w-48 rounded-none p-0">
           <div className="space-y-6 bg-hardware-white px-6 py-6 font-mono text-hardware-charcoal">
-            <DropdownMenuItem className="rounded-none p-2">
-              View Profile
+            <DropdownMenuItem asChild className="rounded-none p-2">
+              <Link to="/profile">View Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="rounded-none p-2">
               Sign Out
