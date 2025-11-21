@@ -1,8 +1,10 @@
+import { Button } from '@/components/ui/button'
+
 export default function NavBar() {
   return (
-    <nav className="flex items-center justify-between bg-hardware-sky px-8 py-4 text-white shadow">
-      <a href="/" className="text-2xl font-semibold tracking-wide">
-        Hardware Hub
+    <nav className="flex items-center justify-between bg-hardware-navy px-8 py-4 text-white shadow">
+      <a href="/" className="font-mono text-2xl font-semibold tracking-wide">
+        ⚙️ Hardware Hub
       </a>
 
       <div className="flex items-center gap-10 text-lg">
@@ -23,12 +25,9 @@ export default function NavBar() {
         </a>
       </div>
 
-      <a
-        href="/login"
-        className="rounded-sm bg-hardware-mint px-5 py-2 font-semibold text-white transition hover:bg-hardware-charcoal/80"
-      >
-        Login / Sign Up
-      </a>
+      <Button className="flex cursor-pointer items-center gap-3 rounded-none bg-hardware-grey px-4 py-3 font-mono text-hardware-charcoal">
+        Login / Sign up
+      </Button>
     </nav>
   )
 }
