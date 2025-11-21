@@ -10,8 +10,11 @@ import { Menu } from 'lucide-react'
 import { Link } from 'react-router'
 import LoginButton from './LoginButton'
 import SignOutButton from './SignOutButton'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function NavBar() {
+  const { isAuthenticated, user } = useAuth0()
+
   return (
     <nav className="flex items-center justify-between bg-hardware-navy px-8 py-4 text-white shadow">
       <a href="/" className="font-mono text-2xl font-semibold tracking-wide">
@@ -36,30 +39,34 @@ export default function NavBar() {
         </a>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger className="focus:outline-none">
-          <div className="flex cursor-pointer items-center gap-3 bg-hardware-grey/90 px-4 py-3">
-            <Avatar className="h-6 w-6 rounded-none border border-hardware-charcoal">
-              <AvatarFallback className="rounded-none bg-hardware-white"></AvatarFallback>
-            </Avatar>
-            <span className="font-mono text-hardware-charcoal">username</span>
-            <Menu className="text-hardware-charcoal" />
-          </div>
-        </DropdownMenuTrigger>
+      {isAuthenticated && user ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus:outline-none">
+            <div className="flex cursor-pointer items-center gap-3 bg-hardware-grey/90 px-4 py-3">
+              <Avatar className="h-6 w-6 rounded-none border border-hardware-charcoal">
+                <AvatarFallback className="rounded-none bg-hardware-white"></AvatarFallback>
+              </Avatar>
+              <span className="font-mono text-hardware-charcoal">
+                {user.name}
+              </span>
+              <Menu className="text-hardware-charcoal" />
+            </div>
+          </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="mt-2 w-48 rounded-none p-0">
-          <div className="space-y-6 bg-hardware-white px-6 py-6 font-mono text-hardware-charcoal">
-            <DropdownMenuItem asChild className="rounded-none p-2">
-              <Link to="/profile">View Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-none p-2">
-              <SignOutButton />
-            </DropdownMenuItem>
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <LoginButton />
+          <DropdownMenuContent className="mt-2 w-48 rounded-none p-0">
+            <div className="space-y-6 bg-hardware-white px-6 py-6 font-mono text-hardware-charcoal">
+              <DropdownMenuItem asChild className="rounded-none p-2">
+                <Link to="/profile">View Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="rounded-none p-2">
+                <SignOutButton />
+              </DropdownMenuItem>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <LoginButton />
+      )}
     </nav>
   )
 }
