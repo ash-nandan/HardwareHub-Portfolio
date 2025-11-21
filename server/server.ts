@@ -5,6 +5,7 @@ import conditions from './routes/conditions'
 import categories from './routes/categories'
 import profileRoutes from './routes/profile'
 import bids from './routes/bids'
+import users from './routes/users'
 
 const server = express()
 
@@ -19,6 +20,7 @@ server.use(express.static('public'))
 server.use('/api/v1/conditions', conditions)
 server.use('/api/v1/categories', categories)
 server.use('/api/v1/bids', bids)
+server.use('/api/v1/users', users)
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))

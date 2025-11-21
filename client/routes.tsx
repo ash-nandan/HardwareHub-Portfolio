@@ -8,6 +8,7 @@ import Layout from './components/Layout.tsx'
 import { UserBids } from './components/UserBids.tsx'
 import { EditListing } from './components/EditListing.tsx'
 import { SearchResults } from './components/SearchResults.tsx'
+import { UserListings } from './components/UserListings.tsx'
 
 export default createRoutesFromElements(
   <>
@@ -21,6 +22,7 @@ export default createRoutesFromElements(
       <Route path="search/results" element={<SearchResults />} />
       <Route path="profile" element={<ProfilePage />} />
       <Route path="bids/:id" element={<UserBids />} />
+      <Route path="mylistings" element={<UserListings />} />
     </Route>
   </>,
 )
