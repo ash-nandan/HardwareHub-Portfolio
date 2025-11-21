@@ -83,9 +83,23 @@ export default function ProfilePage() {
               />
             ) : (
               <>
-                <h2 className="mb-6 text-center text-lg font-semibold tracking-wide">
-                  Personal Details
-                </h2>
+                <div className="mb-6 flex items-center justify-between">
+                  <h2 className="text-lg font-semibold tracking-wide">
+                    Personal Details
+                  </h2>
+                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[#F3F6F9] bg-[#0E2338]">
+                    {profile.image_url ? (
+                      <img
+                        src={`/uploads/${profile.image_url}`}
+                        alt="Profile thumbnail"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-xs text-[#F3F6F9]">No img</span>
+                    )}
+                  </div>
+                </div>
+
                 <div className="space-y-4 text-sm">
                   <DetailRow label="Username" value={profile.username} />
                   <DetailRow label="Full Name" value={fullName} />
@@ -93,13 +107,13 @@ export default function ProfilePage() {
                   <DetailRow label="Phone Number" value={profile.phone} />
                   <DetailRow label="Address" value={address} multiline />
                 </div>
-                <div className="mt-8 flex justify-end">
+                <div className="mt-8 flex justify-end gap-4">
                   <button
-                    className="mr-3 rounded-md bg-[#F3F6F9] px-2 py-2 text-sm font-medium text-[#2A2A32] shadow-sm hover:bg-[#D3D8DE]"
+                    className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700"
                     onClick={handleDelete}
                   >
                     Delete Profile
-                  </button>{' '}
+                  </button>
                   <button
                     className="rounded-md bg-[#F3F6F9] px-4 py-2 text-sm font-medium text-[#2A2A32] shadow-sm hover:bg-[#D3D8DE]"
                     onClick={() => setEditing(true)}
