@@ -5,7 +5,7 @@ import { JwtPayload } from 'jsonwebtoken'
 import jwks from 'jwks-rsa'
 
 // TODO: set the domain and audience (API Identifier)
-const domain = 'https://'
+const domain = 'https://karengo-cypress.au.auth0.com'
 const audience = 'https://'
 
 const checkJwt = jwt({
