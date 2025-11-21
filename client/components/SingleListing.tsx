@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { DeleteListing } from './DeleteListing'
 import { UpdateListing } from './UpdateListingButton'
+import { checkBids } from '../apis/bids'
 
 export function SingleListing() {
   const params = useParams()
@@ -18,6 +19,17 @@ export function SingleListing() {
     },
   })
 
+  const {
+    data: bidData,
+    isPending: bidIsPending,
+    error: bidError,
+  } = useQuery({
+    queryKey: ['bids', listingId],
+    queryFn: async () => {
+      return checkBids(listingId)
+    },
+  })
+
   if (isPending) {
     return <p>Loading...</p>
   }
@@ -27,6 +39,18 @@ export function SingleListing() {
   }
 
   if (!data) {
+    return <p>Data not found</p>
+  }
+
+  if (bidIsPending) {
+    return <p>Loading...</p>
+  }
+
+  if (bidError) {
+    return <p>{bidError.message}</p>
+  }
+
+  if (!bidData) {
     return <p>Data not found</p>
   }
 
@@ -62,7 +86,11 @@ export function SingleListing() {
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
           <div className="flex gap-4">
-            <DeleteListing listingId={data.listingId} />
+            {bidData.length === 0 ? (
+              <DeleteListing listingId={data.listingId} />
+            ) : (
+              ''
+            )}
             <UpdateListing listingId={data.listingId} />
           </div>
         </div>

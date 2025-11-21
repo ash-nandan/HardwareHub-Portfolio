@@ -52,4 +52,19 @@ router.post('/:id/image', upload.single('image'), async (req, res) => {
     res.status(500).json({ message: 'Failed to upload image' })
   }
 })
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const deletedCount = await db.deleteProfile(id)
+    if (!deletedCount) {
+      return res.status(404).json({ message: 'Profile not found' })
+    }
+    return res.sendStatus(204)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ message: 'Failed to delete profile' })
+  }
+})
+
 export default router
