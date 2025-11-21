@@ -8,6 +8,7 @@ import {
 } from '@radix-ui/react-dropdown-menu'
 import { Menu } from 'lucide-react'
 import { Link } from 'react-router'
+import LoginButton from './LoginButton'
 
 export default function NavBar() {
   return (
@@ -57,9 +58,7 @@ export default function NavBar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Button className="flex cursor-pointer items-center gap-3 rounded-none bg-hardware-grey px-4 py-3 font-mono text-hardware-charcoal">
-        Login / Sign up
-      </Button>
+      <LoginButton />
     </nav>
   )
 }

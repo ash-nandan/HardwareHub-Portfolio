@@ -19,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
       clientId="tnGcwAJmkDbtWVdMQkzh2nPJehMNMl5A"
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: 'https://Hardware Hub/api',
+        audience: 'https://Hardwarehub/api',
       }}
+      cacheLocation="localstorage"
+      useRefreshTokens={true}
     >
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
