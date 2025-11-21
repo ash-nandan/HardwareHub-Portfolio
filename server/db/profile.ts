@@ -23,3 +23,7 @@ export function updateProfile(
     .returning('*')
     .then((rows) => rows[0])
 }
+
+export function deleteProfile(id: number, db = connection): Promise<number> {
+  return db('users').where({ id }).del()
+}

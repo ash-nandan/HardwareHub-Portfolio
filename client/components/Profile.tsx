@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import { Profile } from '../../models/profile'
 import EditProfileForm from './EditProfileForm'
 
@@ -6,6 +7,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const userId = 1
   const [editing, setEditing] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchProfile() {
@@ -30,6 +32,27 @@ export default function ProfilePage() {
         <p>Loading profile...</p>
       </div>
     )
+  }
+
+  async function handleDelete() {
+    if (!profile) return
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete your profile? This cannot be undone',
+    )
+    if (!confirmDelete) return
+    try {
+      const res = await fetch(`/api/v1/profile/${profile.id}`, {
+        method: 'DELETE',
+      })
+      if (!res.ok) {
+        console.error('Failed to delete profile')
+        return
+      }
+      setProfile(null)
+      navigate('/')
+    } catch (err) {
+      console.error('error deleting profile', err)
+    }
   }
 
   const fullName = `${profile.first_name} ${profile.last_name}`
@@ -71,6 +94,12 @@ export default function ProfilePage() {
                   <DetailRow label="Address" value={address} multiline />
                 </div>
                 <div className="mt-8 flex justify-end">
+                  <button
+                    className="mr-3 rounded-md bg-[#F3F6F9] px-2 py-2 text-sm font-medium text-[#2A2A32] shadow-sm hover:bg-[#D3D8DE]"
+                    onClick={handleDelete}
+                  >
+                    Delete Profile
+                  </button>{' '}
                   <button
                     className="rounded-md bg-[#F3F6F9] px-4 py-2 text-sm font-medium text-[#2A2A32] shadow-sm hover:bg-[#D3D8DE]"
                     onClick={() => setEditing(true)}
@@ -134,7 +163,7 @@ function ProfilePictureCard({
 
     try {
       setUploading(true)
-      const res = await fetch(`/api/profile/${profileId}/image`, {
+      const res = await fetch(`/api/v1/profile/${profileId}/image`, {
         method: 'POST',
         body: formData,
       })

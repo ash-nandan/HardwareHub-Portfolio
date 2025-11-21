@@ -18,7 +18,7 @@ export default function EditProfileForm({ profile, onClose, onUpdate }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    const res = await fetch(`/api/profile/${profile.id}`, {
+    const res = await fetch(`/api/v1/profile/${profile.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
