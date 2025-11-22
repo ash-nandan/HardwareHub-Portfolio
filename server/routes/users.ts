@@ -16,17 +16,22 @@ router.get('/:id', async (req, res) => {
 
 router.post('/sync', async (req, res) => {
   try {
-    const { auth0Id, name, email } = req.body
-    const user = await db.getUserByAuthId(auth0Id)
+    const { auth0Id, username, email } = req.body
+
+    let user = await db.getUserByAuthId(auth0Id)
 
     if (!user) {
-      const newUser = await db.createUser(auth0Id, name, email)
-      return res.json(newUser)
+      user = await db.createUser({
+        auth0Id,
+        username,
+        email,
+      })
     }
+
     res.json(user)
   } catch (error) {
     console.error(error)
+    res.status(500).json({ error })
   }
 })
-
 export default router

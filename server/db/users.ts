@@ -26,15 +26,31 @@ export async function getListingsByUser(
 }
 
 export async function getUserByAuthId(auth0Id: string) {
-  const user = await db('users').where({ auth0Id }).first()
+  const [user] = await db.raw('SELECT * FROM users WHERE auth0Id = ? LIMIT 1', [
+    auth0Id,
+  ])
   return user
 }
 
 export async function createUser(userData: {
   auth0Id: string
-  name: string
+  username: string
   email: string
 }) {
-  const [newUser] = await db('users').insert(userData).returning('*')
+  const [newUser] = await db.raw(
+    `INSERT INTO users (auth0Id, username, email, first_name, last_name, address_one, town_city, postcode) 
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+     RETURNING *`,
+    [
+      userData.auth0Id,
+      userData.username,
+      userData.email,
+      userData.username || 'User',
+      '',
+      '',
+      '',
+      '',
+    ],
+  )
   return newUser
 }

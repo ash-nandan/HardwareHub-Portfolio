@@ -5,11 +5,13 @@ import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { DeleteListing } from './DeleteListing'
 import { UpdateListing } from './UpdateListingButton'
+import { useAuth } from '../hooks/authHooks'
 
 export function SingleListing() {
   const params = useParams()
   const listingId = Number(params.id)
   const navigate = useNavigate()
+  const { isOwnedByUser, dbUserId } = useAuth()
 
   const { data, isPending, error } = useQuery({
     queryKey: ['listings', listingId],
@@ -68,10 +70,12 @@ export function SingleListing() {
           <p className="text-sm">
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
-          <div className="flex gap-4">
-            <DeleteListing listingId={data.listingId} />
-            <UpdateListing listingId={data.listingId} />
-          </div>
+          {isOwnedByUser(data.listingId, dbUserId!) && (
+            <div className="flex gap-4">
+              <DeleteListing listingId={data.listingId} />
+              <UpdateListing listingId={data.listingId} />
+            </div>
+          )}
         </div>
       </div>
 
