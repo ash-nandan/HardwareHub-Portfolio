@@ -13,4 +13,6 @@ export interface BidCheck {
   bidId: number
   listingId: number
   bidCreated: string
+  bidPrice: number
+  bidUsername: string
 }
