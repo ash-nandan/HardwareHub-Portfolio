@@ -17,6 +17,18 @@ router.get('/search', async (req, res) => {
   }
 })
 
+router.get('/check', async (req, res) => {
+  try {
+    const userId = Number(req.query.userId)
+
+    const closedListings = await db.checkClosedListings(userId)
+    res.json(closedListings)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 router.get('/recent', async (req, res) => {
   try {
     const recentListings = await db.getAllRecentListings()

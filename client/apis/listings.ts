@@ -11,7 +11,7 @@ const rootURL = new URL(`/api/v1`, document.baseURI)
 export async function getSingleListing(listingId: number) {
   const res = await request.get(`${rootURL}/listings/${listingId}`)
 
-  return res.body as Listing
+  return res.body as ListingActiveTime
 }
 
 export async function createNewLisitng(listingData: NewListingData) {
@@ -46,4 +46,10 @@ export async function getRecentListings() {
   const res = await request.get(`${rootURL}/listings/recent`)
 
   return res.body as ListingActiveTime[]
+}
+
+export async function checkClosedUserListings(userId: number) {
+  const res = await request.get(`${rootURL}/listings/check?userId=${userId}`)
+
+  return res.body as Listing[]
 }
