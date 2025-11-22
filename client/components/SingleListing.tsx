@@ -18,6 +18,13 @@ export function SingleListing() {
     },
   })
 
+  const getImgSrc = (itemImage: string) => {
+    if (!itemImage) return '/default-image.png'
+    if (itemImage.startsWith('data:')) return itemImage
+    if (itemImage.startsWith('/')) return itemImage
+    return `/images-listings/${itemImage}`
+  }
+
   if (isPending) {
     return <p>Loading...</p>
   }
@@ -43,9 +50,9 @@ export function SingleListing() {
         </Button>
 
         <img
-          src={`/images-listings/${data.itemImage}`}
+          src={getImgSrc(data.itemImage)}
           alt={data.itemName}
-          className="mb-6 max-w-md"
+          className="h-64 w-full object-cover"
         ></img>
 
         <div className="max-w-md rounded-none bg-hardware-white p-6">
