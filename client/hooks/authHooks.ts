@@ -11,8 +11,4 @@ export function useAuth() {
   }
 }
 
-// export function isOwner(listingUserId: string) {
-//   const { user } = useAuth0()
-//   return isAuthenticated
-
-// }
+export function getUserId(user: number)
