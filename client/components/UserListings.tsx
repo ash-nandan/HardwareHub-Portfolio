@@ -3,15 +3,19 @@ import { useNavigate, useParams } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { timeAgo } from '../utils/timeAgo'
 import { getUserListings } from '../apis/users'
+import { useAuth } from '../hooks/authHooks'
 
 export function UserListings() {
   const params = useParams()
-  const userId = Number(params.id)
+  const { getUserId } = useAuth()
   const navigate = useNavigate()
 
+  const userId = getUserId()
+
   const { data, isPending, error } = useQuery({
-    queryKey: ['listings', userId],
+    queryKey: ['userListings', userId],
     queryFn: async () => {
+      if (!userId) throw new Error('User ID not found')
       return getUserListings(userId)
     },
   })

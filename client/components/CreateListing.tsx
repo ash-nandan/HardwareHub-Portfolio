@@ -28,11 +28,13 @@ export function CreateListing() {
     starting_price: 0,
     category_id: 0,
     condition_id: 0,
-    user_id: getUserId() || 1,
+    user_id: 1,
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [imageSource, setImageSource] = useState<'upload' | 'Preset'>('upload')
+
+  const userId = getUserId()
 
   const presetImages = [
     '/images-listings/listing1.jpg',
@@ -77,11 +79,17 @@ export function CreateListing() {
       return
     }
 
-    createListingMutation.mutate(formData, {
-      onSuccess: () => {
-        navigate('/')
+    createListingMutation.mutate(
+      {
+        ...formData,
+        user_id: userId || 1,
       },
-    })
+      {
+        onSuccess: () => {
+          navigate('/')
+        },
+      },
+    )
   }
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

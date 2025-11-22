@@ -30,6 +30,7 @@ export async function getListingById(listingId: number): Promise<Listing> {
       'user_listings.item_description as itemDescription',
       'user_listings.item_image as itemImage',
       'users.username as username',
+      'user_listings.user_id as userId',
     )
     .first()
 
@@ -74,6 +75,7 @@ export async function searchAllListings(
       'user_listings.item_description as itemDescription',
       'user_listings.item_image as itemImage',
       'users.username as username',
+      'user_listings.user_id as userId',
     )
 
   const keywordStrings = keywords
@@ -111,6 +113,7 @@ export async function getAllListings(): Promise<Listing[]> {
       'user_listings.item_description as itemDescription',
       'user_listings.item_image as itemImage',
       'users.username as username',
+      'user_listings.user_id as userId',
     )
 
   return res
@@ -135,6 +138,7 @@ export async function getAllRecentListings(): Promise<ListingActiveTime[]> {
       'users.username as username',
       'user_listings.created_at as createdAt',
       'user_listings.is_active as isActive',
+      'user_listings.user_id as userId',
     )
 
   return res

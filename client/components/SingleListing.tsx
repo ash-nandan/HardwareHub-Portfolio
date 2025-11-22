@@ -39,6 +39,8 @@ export function SingleListing() {
     return <p>Data not found</p>
   }
 
+  const canManage = isOwnedByUser(data.userId, dbUserId!)
+
   return (
     <div className="flex flex-wrap justify-center space-x-6">
       <div>
@@ -70,7 +72,7 @@ export function SingleListing() {
           <p className="text-sm">
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
-          {isOwnedByUser(data.listingId, dbUserId!) && (
+          {canManage && (
             <div className="flex gap-4">
               <DeleteListing listingId={data.listingId} />
               <UpdateListing listingId={data.listingId} />
