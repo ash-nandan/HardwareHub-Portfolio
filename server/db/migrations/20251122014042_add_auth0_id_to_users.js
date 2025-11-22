@@ -4,7 +4,7 @@
  */
 export function up(knex) {
   return knex.schema.alterTable('users', (table) => {
-    table.string('auth0.id').unique().notNullable()
+    table.string('auth0Id').unique()
   })
 }
 
@@ -12,4 +12,8 @@ export function up(knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export function down(knex) {}
+export function down(knex) {
+  return knex.schema.alterTable('users', (table) => {
+    table.dropColumn('auth0Id')
+  })
+}
