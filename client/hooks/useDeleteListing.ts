@@ -14,7 +14,7 @@ export function useDeleteListing() {
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['listings'] })
-      navigate('/listings')
+      navigate('/mylistings')
     },
 
     onError: (error) => {

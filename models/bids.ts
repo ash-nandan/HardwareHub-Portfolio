@@ -8,3 +8,11 @@ export interface BidWithListing {
   itemDescription: string
   itemImage: string
 }
+
+export interface BidCheck {
+  bidId: number
+  listingId: number
+  bidCreated: string
+  bidPrice: number
+  bidUsername: string
+}

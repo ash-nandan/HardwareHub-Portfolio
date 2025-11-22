@@ -30,15 +30,14 @@ export interface Listing {
   userId: number
 }
 
-export interface ListingActiveTime {
-  listingId: number
-  categoryName: string
-  conditionDescription: string
-  itemName: string
-  startingPrice: number
-  itemDescription: string
-  itemImage: string
-  username: string
+export interface ListingActiveTime extends Listing {
   createdAt: string
+  isActive: boolean
+}
+
+export interface ClosedListingCheck {
+  listingId: number
+  itemName: string
+  itemImage: string
   isActive: boolean
 }

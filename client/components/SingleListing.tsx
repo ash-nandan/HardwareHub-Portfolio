@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router'
 import { DeleteListing } from './DeleteListing'
 import { UpdateListing } from './UpdateListingButton'
 import { useAuth } from '../hooks/authHooks'
+import { checkBids } from '../apis/bids'
 
 export function SingleListing() {
   const params = useParams()
@@ -26,6 +27,16 @@ export function SingleListing() {
     if (itemImage.startsWith('/')) return itemImage
     return `/images-listings/${itemImage}`
   }
+  const {
+    data: bidData,
+    isPending: bidIsPending,
+    error: bidError,
+  } = useQuery({
+    queryKey: ['bids', listingId],
+    queryFn: async () => {
+      return checkBids(listingId)
+    },
+  })
 
   if (isPending) {
     return <p>Loading...</p>
@@ -40,6 +51,17 @@ export function SingleListing() {
   }
 
   const canManage = isOwnedByUser(data.userId, dbUserId!)
+  if (bidIsPending) {
+    return <p>Loading...</p>
+  }
+
+  if (bidError) {
+    return <p>{bidError.message}</p>
+  }
+
+  if (!bidData) {
+    return <p>Data not found</p>
+  }
 
   return (
     <div className="flex flex-wrap justify-center space-x-6">
@@ -78,6 +100,64 @@ export function SingleListing() {
               <UpdateListing listingId={data.listingId} />
             </div>
           )}
+          <>
+            <div className="mt-6 flex justify-end gap-4">
+              <p className="mt-2 text-sm font-bold">This auction has ended</p>
+              <Button
+                onClick={() => {
+                  //create modal that finds dom element with matching id
+                  const modal = document.getElementById(
+                    'finalise-modal',
+                  ) as HTMLDialogElement
+                  modal.showModal()
+                }}
+                className="bg-red-600 text-hardware-white"
+              >
+                Finalise Sale
+              </Button>
+            </div>
+
+            {/* the matching id means this dialog box will render */}
+            <dialog
+              id="finalise-modal"
+              className="spacy-y-4 pointer-events-none flex max-w-lg flex-col rounded-xl bg-hardware-charcoal p-6 text-center text-hardware-white opacity-0 shadow-2xl transition-all duration-300 backdrop:bg-black/40 backdrop:backdrop-blur-sm open:pointer-events-auto open:opacity-100"
+            >
+              <h1 className="p-12 font-mono text-2xl">
+                Your sale is finalised!
+              </h1>
+              <h2 className="mb-12 text-center">
+                The winning bid belongs to {bidData[0].bidUsername} for $
+                {bidData[0].bidPrice}
+              </h2>
+              <p>This is the end of the UX for our MVP. Next steps would be:</p>
+              <div className="m-4 flex text-left">
+                <ul className="list-disc space-y-2 pl-2">
+                  <li>
+                    Save this listing to an &apos;archives&apos; table in the
+                    database
+                  </li>
+                  <li>
+                    Delete this listing from the &apos;user_listings&apos; table
+                    in the database
+                  </li>
+                  <li>Communicate the outcome to the winning user</li>
+                </ul>
+              </div>
+              <p className="m-4">- The Hardware Hub Team</p>
+              <button
+                className="mx-auto mb-4 mt-12 w-36 rounded-md bg-hardware-blue px-4 py-4 text-hardware-white"
+                onClick={() => {
+                  const modal = document.getElementById(
+                    'finalise-modal',
+                  ) as HTMLDialogElement
+                  modal.close()
+                  navigate('/')
+                }}
+              >
+                Return Home
+              </button>
+            </dialog>
+          </>
         </div>
       </div>
 
@@ -93,3 +173,10 @@ export function SingleListing() {
 }
 
 export default SingleListing
+
+//Some new styling used:
+//backdrop:bg = set color behind the dialog modal
+//backdrop:backdrop-blur = add blur
+//opacity-0 open:opacity-100 = trick to make it seem modal is 'not there' and show up (full opacity) when opened
+//pointer-events-none open:pointer-events-auto = trick to disable pointer and turn on again
+//transition-all duration-300 = a timed fade in for modal

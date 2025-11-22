@@ -40,6 +40,11 @@ export function RecentListings() {
   }
   return (
     <div>
+      <img
+        src={'/images-app/landing-page-cover.jpg'}
+        alt="find it build it cover"
+        className="mx-auto hidden w-full max-w-xl p-12 sm:block md:max-w-4xl lg:max-w-6xl"
+      ></img>
       <h1 className="py-8 text-center font-mono text-3xl text-white">
         Recent Listings
       </h1>

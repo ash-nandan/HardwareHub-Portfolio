@@ -1,4 +1,4 @@
-import { BidWithListing } from 'models/bids'
+import { BidCheck, BidWithListing } from 'models/bids'
 import db from './connection'
 
 export async function getAllUserBids(
@@ -16,6 +16,22 @@ export async function getAllUserBids(
       'user_listings.starting_price as startingPrice',
       'user_listings.item_description as itemDescription',
       'user_listings.item_image as itemImage',
+    )
+
+  return res
+}
+
+export async function getBidCheck(listingId: number): Promise<BidCheck[]> {
+  const res = await db('bids')
+    .join('users', 'bids.user_id', 'users.id')
+    .where({ 'bids.user_listing_id': listingId })
+    .orderBy('bids.created_at', 'desc')
+    .select(
+      'bids.id as bidId',
+      'bids.created_at as bidCreated',
+      'bids.user_listing_id as listingId',
+      'bids.bid_price as bidPrice',
+      'users.username as bidUsername',
     )
 
   return res
