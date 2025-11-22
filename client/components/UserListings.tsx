@@ -22,6 +22,13 @@ export function UserListings() {
     },
   })
 
+  const getImgSrc = (itemImage: string) => {
+    if (!itemImage) return '/default-image.png'
+    if (itemImage.startsWith('data:')) return itemImage
+    if (itemImage.startsWith('/')) return itemImage
+    return `/images-listings/${itemImage}`
+  }
+
   if (isPending) {
     return <p>Loading...</p>
   }
@@ -56,8 +63,9 @@ export function UserListings() {
           {data.map((listing) => (
             <div key={listing.listingId}>
               <img
-                src={`/images-listings/${listing.itemImage}`}
+                src={getImgSrc(listing.itemImage)}
                 alt={listing.itemName}
+                className="h-64 w-full object-cover"
               ></img>
               <div className="mb-12 rounded-none bg-hardware-white p-6">
                 <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
