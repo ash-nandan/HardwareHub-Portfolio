@@ -115,7 +115,7 @@ export function SingleListing() {
               {/* the matching id means this dialog box will render */}
               <dialog
                 id="finalise-modal"
-                className="spacy-y-4 pointer-events-none flex max-w-lg flex-col rounded-xl bg-hardware-charcoal p-6 text-center text-hardware-white opacity-0 shadow-2xl backdrop:bg-black/40 backdrop:backdrop-blur-sm open:pointer-events-auto open:opacity-100"
+                className="spacy-y-4 pointer-events-none flex max-w-lg flex-col rounded-xl bg-hardware-charcoal p-6 text-center text-hardware-white opacity-0 shadow-2xl transition-all duration-300 backdrop:bg-black/40 backdrop:backdrop-blur-sm open:pointer-events-auto open:opacity-100"
               >
                 <h1 className="p-12 font-mono text-2xl">
                   Your sale is finalised!
@@ -177,3 +177,4 @@ export default SingleListing
 //backdrop:backdrop-blur = add blur
 //opacity-0 open:opacity-100 = trick to make it seem modal is 'not there' and show up (full opacity) when opened
 //pointer-events-none open:pointer-events-auto = trick to disable pointer and turn on again
+//transition-all duration-300 = a timed fade in for modal

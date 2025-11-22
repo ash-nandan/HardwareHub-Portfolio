@@ -78,9 +78,9 @@ export default function NavBar() {
           <DropdownMenuContent
             align="end" //align right edge
             sideOffset={4}
-            className="mt-2 max-w-sm rounded-none border-b-2 border-hardware-mint p-0"
+            className="text-md mt-2 max-w-sm rounded-none border-b-2 border-hardware-mint shadow-2xl"
           >
-            <div className="flex bg-hardware-charcoal px-4 py-2 font-sans text-xs text-hardware-white">
+            <div className="flex bg-hardware-charcoal px-4 py-2 font-sans text-sm text-hardware-white">
               {data.map((listing) => (
                 <DropdownMenuItem
                   asChild
