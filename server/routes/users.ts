@@ -15,23 +15,34 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/sync', async (req, res) => {
-  try {
-    const { auth0Id, username, email } = req.body
+  console.log('Received body:', req.body)
 
-    let user = await db.getUserByAuthId(auth0Id)
+  try {
+    const { auth0_id, name, email } = req.body
+
+    if (!auth0_id) {
+      return res.status(400).json({ error: 'auth0_id is required' })
+    }
+
+    console.log('Looking for user:', auth0_id)
+
+    let user = await db.getUserByAuthId(auth0_id)
 
     if (!user) {
+      console.log('Creating new user')
       user = await db.createUser({
-        auth0Id,
-        username,
-        email,
+        auth0_id,
+        username: name || 'User',
+        email: email || 'no-email@example.com',
       })
     }
 
     res.json(user)
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ error })
+    console.error('Sync error:', error)
+    res
+      .status(500)
+      .json({ error: 'Error syncing user', details: error.message })
   }
 })
 export default router

@@ -25,32 +25,36 @@ export async function getListingsByUser(
   return res
 }
 
+// server/db/users.ts
 export async function getUserByAuthId(auth0Id: string) {
-  const [user] = await db.raw('SELECT * FROM users WHERE auth0Id = ? LIMIT 1', [
-    auth0Id,
-  ])
-  return user
+  const result = await db.raw(
+    'SELECT * FROM users WHERE auth0Id = ? LIMIT 1', // Use exact column name!
+    [auth0Id],
+  )
+  return result[0]
 }
 
+// server/db/users.ts
 export async function createUser(userData: {
-  auth0Id: string
+  auth0_id: string
   username: string
   email: string
 }) {
-  const [newUser] = await db.raw(
-    `INSERT INTO users (auth0Id, username, email, first_name, last_name, address_one, town_city, postcode) 
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+  const result = await db.raw(
+    `INSERT INTO users (auth0Id, auth_id, username, email, first_name, last_name, address_one, town_city, postcode) 
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
      RETURNING *`,
     [
-      userData.auth0Id,
+      userData.auth0_id,
+      userData.auth0_id, // Also fill auth_id (seems like a duplicate column)
       userData.username,
-      userData.email,
+      userData.email || 'no-email@example.com',
       userData.username || 'User',
       '',
-      '',
-      '',
-      '',
+      'N/A',
+      'N/A',
+      '0000',
     ],
   )
-  return newUser
+  return result[0]
 }

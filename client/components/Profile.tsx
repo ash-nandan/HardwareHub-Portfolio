@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Profile } from '../../models/profile'
 import EditProfileForm from './EditProfileForm'
+import { useAuth } from '../hooks/authHooks'
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
-  const userId = 1
+  const { dbUserId: userId } = useAuth()
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {

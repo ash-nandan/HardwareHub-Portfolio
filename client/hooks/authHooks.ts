@@ -9,23 +9,28 @@ export const useAuth = () => {
 
   useEffect(() => {
     const syncUser = async () => {
-      if (user) {
+      if (user && user.sub && !dbUserId) {
         try {
+          console.log('Auth0 User:', user)
+
           const response = await request.post('/api/v1/users/sync').send({
             auth0_id: user.sub,
-            username: user.name || user.nickname,
-            email: user.email,
+            name:
+              user.name || user.nickname || user.email?.split('@')[0] || 'User',
+            email: user.email || '',
           })
 
+          console.log('Sync response:', response.body)
           setDbUserId(response.body.id)
         } catch (error) {
           console.error('Error syncing user:', error)
         }
+      } else {
+        console.log('User or user.sub not available yet')
       }
     }
-
     syncUser()
-  }, [user])
+  }, [user, dbUserId])
 
   const getUserId = (): number | null => {
     return dbUserId
