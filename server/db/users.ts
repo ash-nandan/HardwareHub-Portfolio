@@ -24,3 +24,17 @@ export async function getListingsByUser(
 
   return res
 }
+
+export async function getUserByAuthId(auth0Id: string) {
+  const user = await db('users').where({ auth0Id }).first()
+  return user
+}
+
+export async function createUser(userData: {
+  auth0Id: string
+  name: string
+  email: string
+}) {
+  const [newUser] = await db('users').insert(userData).returning('*')
+  return newUser
+}
