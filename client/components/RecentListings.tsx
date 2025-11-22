@@ -14,6 +14,13 @@ export function RecentListings() {
     },
   })
 
+  const getImgSrc = (itemImage: string) => {
+    if (!itemImage) return '/default-image.png'
+    if (itemImage.startsWith('data:')) return itemImage
+    if (itemImage.startsWith('/')) return itemImage
+    return `/images-listings/${itemImage}`
+  }
+
   if (isPending) {
     return <p className="mt-8 text-center text-hardware-white">Loading...</p>
   }
@@ -41,7 +48,7 @@ export function RecentListings() {
           {data.map((listing) => (
             <div key={listing.listingId}>
               <img
-                src={`/images-listings/${listing.itemImage}`}
+                src={getImgSrc(listing.itemImage)}
                 alt={listing.itemName}
               ></img>
               <div className="mb-12 rounded-none bg-hardware-white p-6">

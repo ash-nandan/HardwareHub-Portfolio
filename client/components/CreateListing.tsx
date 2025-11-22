@@ -92,11 +92,30 @@ export function CreateListing() {
     }
   }
 
-  const handlePresetImageSelect = (imagePath: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      item_image: imagePath,
-    }))
+  const handlePresetImageSelect = async (imagePath: string) => {
+    console.log('1. Selected path:', imagePath)
+    try {
+      const response = await fetch(imagePath)
+      console.log('2. Fetch response:', response.ok)
+      const blob = await response.blob()
+      console.log('3. Blob size:', blob.size)
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        console.log('4. Base64 length:', (reader.result as string).length)
+        console.log(
+          '5. Base64 preview:',
+          (reader.result as string).substring(0, 50),
+        )
+        setFormData((prev) => ({
+          ...prev,
+          item_image: reader.result as string,
+        }))
+      }
+      reader.readAsDataURL(blob)
+    } catch (error) {
+      console.error('Error selecting preset image:', error)
+    }
   }
 
   return (
