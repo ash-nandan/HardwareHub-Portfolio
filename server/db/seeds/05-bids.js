@@ -60,7 +60,7 @@ export async function seed(knex) {
     },
     {
       id: 9,
-      user_id: 3,
+      user_id: 1,
       user_listing_id: 6,
       bid_price: 250,
       created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
