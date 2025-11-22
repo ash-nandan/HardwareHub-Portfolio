@@ -8,7 +8,7 @@ const LoginButton = () => {
       onClick={() => loginWithRedirect()}
       className="flex cursor-pointer items-center gap-3 rounded-none bg-hardware-grey px-4 py-3 font-mono text-hardware-charcoal"
     >
-      Log In / Sign up
+      Log In / Sign upnp
     </Button>
   )
 }

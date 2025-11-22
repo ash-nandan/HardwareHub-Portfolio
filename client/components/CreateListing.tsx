@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { NewListingData } from '../../models/listings'
 import { createNewLisitng } from '../apis/listings'
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -14,8 +14,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ArrowLeft } from 'lucide-react'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export function CreateListing() {
+  const { user, isAuthenticated } = useAuth0()
+
   const [formData, setFormData] = useState<NewListingData>({
     item_name: '',
     item_description: '',
@@ -23,11 +26,17 @@ export function CreateListing() {
     starting_price: 0,
     category_id: 0,
     condition_id: 0,
-    user_id: 1, // hardcoded till auth is done
+    user_id: user(),
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [imageSource, setImageSource] = useState<'upload' | 'Preset'>('upload')
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/')
+    }
+  })
 
   const presetImages = [
     '/images-listings/listing1.jpg',
