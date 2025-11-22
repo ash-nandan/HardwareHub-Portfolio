@@ -14,10 +14,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ArrowLeft } from 'lucide-react'
-import { useAuth0 } from '@auth0/auth0-react'
+import { useAuth } from '../hooks/authHooks'
+import { useRequireAuth } from '../hooks/requireAuth'
 
 export function CreateListing() {
-  const { user, isAuthenticated } = useAuth0()
+  const { getUserId } = useAuth()
+  const { isLoading: authLoading, isAuthenticated } = useRequireAuth('/login')
 
   const [formData, setFormData] = useState<NewListingData>({
     item_name: '',
@@ -26,17 +28,11 @@ export function CreateListing() {
     starting_price: 0,
     category_id: 0,
     condition_id: 0,
-    user_id: user(),
+    user_id: getUserId() || 1,
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [imageSource, setImageSource] = useState<'upload' | 'Preset'>('upload')
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/')
-    }
-  })
 
   const presetImages = [
     '/images-listings/listing1.jpg',
@@ -125,6 +121,18 @@ export function CreateListing() {
     } catch (error) {
       console.error('Error selecting preset image:', error)
     }
+  }
+
+  if (authLoading) {
+    return <p className="mt-8 text-center text-white">Loading...</p>
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <p className="mt-8 text-center text-white">
+        You must be logged in to create a listing.
+      </p>
+    )
   }
 
   return (

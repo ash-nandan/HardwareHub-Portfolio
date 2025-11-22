@@ -27,13 +27,15 @@ export const useAuth = () => {
     syncUser()
   }, [user])
 
-  const getUserId = (dbUserId: number) => {
+  const getUserId = (): number | null => {
     return dbUserId
   }
 
   const isOwnedByUser = (itemUserId: number, dbUserId: number) => {
     return itemUserId === dbUserId
   }
+
+  const login = () => loginWithRedirect()
 
   return {
     user,
@@ -44,5 +46,6 @@ export const useAuth = () => {
     dbUserId,
     getUserId,
     isOwnedByUser,
+    login,
   }
 }
