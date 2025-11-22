@@ -16,7 +16,9 @@ export async function createListing(
   return newListing
 }
 
-export async function getListingById(listingId: number): Promise<Listing> {
+export async function getListingById(
+  listingId: number,
+): Promise<ListingActiveTime> {
   const res = await db('user_listings')
     .join('users', 'user_listings.user_id', 'users.id')
     .join('categories', 'user_listings.category_id', 'categories.id')
@@ -31,6 +33,8 @@ export async function getListingById(listingId: number): Promise<Listing> {
       'user_listings.item_description as itemDescription',
       'user_listings.item_image as itemImage',
       'users.username as username',
+      'user_listings.created_at as createdAt',
+      'user_listings.is_active as isActive',
     )
     .first()
 

@@ -54,6 +54,10 @@ export function SingleListing() {
     return <p>Data not found</p>
   }
 
+  const handleClick = () => {
+    navigate('/summary')
+  }
+
   return (
     <div className="flex flex-wrap justify-center space-x-6">
       <div>
@@ -85,14 +89,26 @@ export function SingleListing() {
           <p className="text-sm">
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
-          <div className="flex gap-4">
-            {bidData.length === 0 ? (
-              <DeleteListing listingId={data.listingId} />
-            ) : (
-              ''
-            )}
-            <UpdateListing listingId={data.listingId} />
-          </div>
+          {data.isActive ? (
+            <div className="flex gap-4">
+              {bidData.length === 0 ? (
+                <DeleteListing listingId={data.listingId} />
+              ) : (
+                ''
+              )}
+              <UpdateListing listingId={data.listingId} />
+            </div>
+          ) : (
+            <div className="mt-6 flex justify-end gap-4">
+              <p className="mt-2 text-sm font-bold">This auction has ended</p>
+              <Button
+                onClick={handleClick}
+                className="bg-red-600 text-hardware-white"
+              >
+                Finalise Sale
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
