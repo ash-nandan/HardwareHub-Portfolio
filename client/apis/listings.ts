@@ -47,3 +47,9 @@ export async function getRecentListings() {
 
   return res.body as ListingActiveTime[]
 }
+
+export async function checkClosedUserListings(userId: number) {
+  const res = await request.get(`${rootURL}/listings/check?userId=${userId}`)
+
+  return res.body as Listing[]
+}

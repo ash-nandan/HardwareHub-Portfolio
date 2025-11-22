@@ -6,10 +6,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu'
-import { Bell, Menu } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { checkClosedUserListings } from '../apis/listings'
+import { Bell, BellDot, Menu } from 'lucide-react'
 import { Link } from 'react-router'
 
 export default function NavBar() {
+  const userId = 3
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ['closedListings', userId],
+    queryFn: async () => {
+      return checkClosedUserListings(userId)
+    },
+  })
+
+  if (isPending) {
+    return <p>Loading...</p>
+  }
+
+  if (error) {
+    return <p>{error.message}</p>
+  }
+
+  if (!data) {
+    return <p>Data not found</p>
+  }
+
   return (
     <nav className="flex items-center justify-between bg-hardware-navy px-8 py-4 text-white shadow">
       <a href="/" className="font-mono text-2xl font-semibold tracking-wide">
@@ -34,7 +57,7 @@ export default function NavBar() {
         </a>
       </div>
 
-      <Bell />
+      {data.length === 0 ? <Bell /> : <BellDot className="text-red-500" />}
 
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">
