@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { NewListingData } from '../../models/listings'
 import { createNewLisitng } from '../apis/listings'
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react'
+import { useState, ChangeEvent, FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -19,7 +19,7 @@ import { useRequireAuth } from '../hooks/requireAuth'
 
 export function CreateListing() {
   const { getUserId } = useAuth()
-  const { isLoading: authLoading, isAuthenticated } = useRequireAuth('/login')
+  const { isLoading: authLoading, isAuthenticated } = useRequireAuth()
 
   const [formData, setFormData] = useState<NewListingData>({
     item_name: '',
