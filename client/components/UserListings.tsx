@@ -4,10 +4,12 @@ import { ChevronRight } from 'lucide-react'
 import { timeAgo } from '../utils/timeAgo'
 import { getUserListings } from '../apis/users'
 import { useAuth } from '../hooks/authHooks'
+import { useRequireAuth } from '../hooks/requireAuth'
 
 export function UserListings() {
   const params = useParams()
   const { getUserId } = useAuth()
+  const { isLoading: authLoading, isAuthenticated } = useRequireAuth()
   const navigate = useNavigate()
 
   const userId = getUserId()
@@ -30,6 +32,18 @@ export function UserListings() {
 
   if (!data) {
     return <p>Data not found</p>
+  }
+
+  if (authLoading) {
+    return <p className="mt-8 text-center text-white">Loading...</p>
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <p className="mt-8 text-center text-white">
+        You must be logged in to see your listings.
+      </p>
+    )
   }
 
   return (
