@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { timeAgo } from '../utils/timeAgo'
 import { getUserListings } from '../apis/users'
@@ -7,7 +7,6 @@ import { useAuth } from '../hooks/authHooks'
 import { useRequireAuth } from '../hooks/requireAuth'
 
 export function UserListings() {
-  const params = useParams()
   const { getUserId } = useAuth()
   const { isLoading: authLoading, isAuthenticated } = useRequireAuth()
   const navigate = useNavigate()
