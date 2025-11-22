@@ -33,3 +33,10 @@ export interface ListingActiveTime extends Listing {
   createdAt: string
   isActive: boolean
 }
+
+export interface ClosedListingCheck {
+  listingId: number
+  itemName: string
+  itemImage: string
+  isActive: boolean
+}

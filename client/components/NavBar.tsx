@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu'
-import { Menu } from 'lucide-react'
+import { Bell, Menu } from 'lucide-react'
 import { Link } from 'react-router'
 
 export default function NavBar() {
@@ -33,6 +33,8 @@ export default function NavBar() {
           Create Listing
         </a>
       </div>
+
+      <Bell />
 
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">

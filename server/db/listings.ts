@@ -3,6 +3,7 @@ import {
   NewListingData,
   Listing,
   ListingActiveTime,
+  ClosedListingCheck,
 } from 'models/listings'
 import db from './connection'
 
@@ -134,6 +135,24 @@ export async function getAllRecentListings(): Promise<ListingActiveTime[]> {
       'user_listings.item_image as itemImage',
       'users.username as username',
       'user_listings.created_at as createdAt',
+      'user_listings.is_active as isActive',
+    )
+
+  return res
+}
+
+export async function checkClosedListings(
+  userId: number,
+): Promise<ClosedListingCheck[]> {
+  const res = await db('user_listings')
+    .where({
+      'user_listings.user_id': userId,
+      'user_listings.is_active': false,
+    })
+    .select(
+      'user_listings.id as listingId',
+      'user_listings.item_name as itemName',
+      'user_listings.item_image as itemImage',
       'user_listings.is_active as isActive',
     )
 
