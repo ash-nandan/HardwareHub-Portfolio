@@ -36,8 +36,9 @@ export const useAuth = () => {
     return dbUserId
   }
 
-  const isOwnedByUser = (itemUserId: number, dbUserId: number) => {
-    return itemUserId === dbUserId
+  const isOwner = (resourceUserId: number): boolean => {
+    if (!isAuthenticated || !dbUserId) return false
+    return dbUserId === resourceUserId
   }
 
   const login = () => loginWithRedirect()
@@ -50,7 +51,7 @@ export const useAuth = () => {
     logout,
     dbUserId,
     getUserId,
-    isOwnedByUser,
+    isOwner,
     login,
   }
 }
