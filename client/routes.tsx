@@ -9,13 +9,14 @@ import { UserBids } from './components/UserBids.tsx'
 import { EditListing } from './components/EditListing.tsx'
 import { SearchResults } from './components/SearchResults.tsx'
 import { UserListings } from './components/UserListings.tsx'
+import AllListings from './components/AllListings.tsx'
 
 export default createRoutesFromElements(
   <>
     <Route path="/" element={<Layout />}>
       <Route index element={<RecentListings />} />
       <Route path="playground" element={<Playground />} />
-      <Route path="listings" />
+      <Route path="listings" element={<AllListings />} />
       <Route path="listings/create" element={<CreateListing />} />
       <Route path="listings/:id" element={<SingleListing />} />
       <Route path="listings/:id/edit" element={<EditListing />} />
