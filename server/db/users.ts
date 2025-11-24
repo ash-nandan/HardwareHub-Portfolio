@@ -26,42 +26,31 @@ export async function getListingsByUser(
 }
 
 // server/db/users.ts
-export async function getUserByAuthId(auth0Id: string) {
+//change made of parameter to authId from auth0Id to match table - Joel
+export async function getUserByAuthId(authId: string) {
   const result = await db.raw(
-    'SELECT * FROM users WHERE auth0Id = ? LIMIT 1', // Use exact column name!
-    [auth0Id],
+    'SELECT * FROM users WHERE auth_id = ? LIMIT 1', // Use exact column name!
+    [authId],
   )
   return result[0]
 }
 
 // server/db/users.ts
-export async function createUser(userData: {
-  auth0_id: string
-  username: string
-  email: string
-}) {
+//change made of parameter to authId from auth0Id to match table - Joel
+//removed columns not provided in auth0 signin ie. username, address.. - Joel
+export async function createUser(userData: { authId: string; email: string }) {
   const result = await db.raw(
-    `INSERT INTO users (auth0Id, auth_id, username, email, first_name, last_name, address_one, town_city, postcode) 
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
+    `INSERT INTO users ( auth_id, email,) 
+     VALUES (?, ?) 
      RETURNING *`,
-    [
-      userData.auth0_id,
-      userData.auth0_id, // Also fill auth_id (seems like a duplicate column)
-      userData.username,
-      userData.email || 'no-email@example.com',
-      userData.username || 'User',
-      '',
-      'N/A',
-      'N/A',
-      '0000',
-    ],
+    [userData.authId, userData.email],
   )
   return result[0]
 }
 
 export async function checkUserInDatabase(authId: string): Promise<boolean> {
   return (await db('users')
-    .where({ 'users.auth_id': authId, 'uesrs.phone': null })
+    .where({ 'users.auth_id': authId, 'users.phone': null })
     .select('auth_id as authId')
     .first())
     ? true
