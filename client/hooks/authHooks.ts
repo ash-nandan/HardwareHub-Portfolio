@@ -13,11 +13,10 @@ export const useAuth = () => {
         try {
           console.log('Auth0 User:', user)
 
+          //simplify data send to authId and email - rest will be filled out on signup page - Joel
           const response = await request.post('/api/v1/users/sync').send({
-            auth0_id: user.sub,
-            name:
-              user.name || user.nickname || user.email?.split('@')[0] || 'User',
-            email: user.email || '',
+            authId: user.sub,
+            email: user.email,
           })
 
           console.log('Sync response:', response.body)
