@@ -16,7 +16,8 @@ router.get('/:id', async (req, res) => {
 
 //change made of parameter to authId from auth0Id to match table - Joel
 //removed columns not provided in auth0 signin ie. username - Joel
-//removed alt email address - will insert as null if any issue
+//removed alt email address - will insert as null if any issue - Joel
+//removed details: error.message due to undefined type, console will log details - Joel
 router.post('/sync', async (req, res) => {
   console.log('Received body:', req.body)
 
