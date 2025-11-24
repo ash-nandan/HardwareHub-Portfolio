@@ -45,4 +45,16 @@ router.post('/sync', async (req, res) => {
       .json({ error: 'Error syncing user', details: error.message })
   }
 })
+
+router.get('/check', async (req, res) => {
+  try {
+    const authId = String(req.query.authId)
+    const userProfile = await db.checkUserInDatabase(authId)
+    res.send(userProfile)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
 export default router

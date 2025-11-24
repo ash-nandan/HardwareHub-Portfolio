@@ -58,3 +58,12 @@ export async function createUser(userData: {
   )
   return result[0]
 }
+
+export async function checkUserInDatabase(authId: string): Promise<boolean> {
+  return (await db('users')
+    .where({ 'users.auth_id': authId, 'uesrs.phone': null })
+    .select('auth_id as authId')
+    .first())
+    ? true
+    : false
+}
