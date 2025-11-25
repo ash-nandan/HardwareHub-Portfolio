@@ -27,3 +27,12 @@ export interface ProfilePatch {
   postcode: string
   imageUrl: string
 }
+
+export interface ProfileConfirmed {
+  id: number
+  username: string
+}
+
+export interface ProfileResponse {
+  updatedUserId: number
+}

@@ -100,7 +100,7 @@ router.patch('/', checkJwt, async (req: JwtRequest, res) => {
 
     const profileId = updatedProfile.id
 
-    res.status(200).json({ updatedUser: profileId })
+    res.status(200).json({ updatedUserId: profileId })
   } catch (error) {
     console.error(error)
     res.status(500).send('Something went wrong')
