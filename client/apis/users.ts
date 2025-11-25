@@ -8,3 +8,8 @@ export async function getUserListings(userId: number) {
 
   return res.body as ListingActiveTime[]
 }
+
+export async function checkUser(authId: string) {
+  const res = await request.get(`${rootURL}/users/check?authId=${authId}`)
+  return res.body ? true : false
+}
