@@ -50,6 +50,7 @@ export default function ProfilePage() {
         return
       }
       setProfile(null)
+      //changed from navigate to sign out once profile is deleted - Joel
       logout({ logoutParams: { returnTo: window.location.origin } })
     } catch (err) {
       console.error('error deleting profile', err)
