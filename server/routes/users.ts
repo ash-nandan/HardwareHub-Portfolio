@@ -80,7 +80,7 @@ router.patch('/', checkJwt, async (req: JwtRequest, res) => {
       postcode,
       imageUrl,
     } = req.body
-    const newUser = await db.updateProfileDetails(
+    const updatedProfile = await db.updateProfileDetails(
       authId,
       username,
       firstName,
@@ -94,13 +94,13 @@ router.patch('/', checkJwt, async (req: JwtRequest, res) => {
       imageUrl,
     )
 
-    if (!newUser) {
+    if (!updatedProfile) {
       return res.sendStatus(400)
     }
 
-    const newUserId = newUser.id
+    const profileId = updatedProfile.id
 
-    res.status(200).json({ updatedUser: newUserId })
+    res.status(200).json({ updatedUser: profileId })
   } catch (error) {
     console.error(error)
     res.status(500).send('Something went wrong')
