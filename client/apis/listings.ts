@@ -8,6 +8,12 @@ import {
 //import { User } from '@auth0/auth0-react'
 const rootURL = new URL(`/api/v1`, document.baseURI)
 
+export async function getAllListings() {
+  const res = await fetch('/api/v1/listings')
+  if (!res.ok) throw new Error('Failed to get listings')
+  return res.json()
+}
+
 export async function getSingleListing(listingId: number) {
   const res = await request.get(`${rootURL}/listings/${listingId}`)
 

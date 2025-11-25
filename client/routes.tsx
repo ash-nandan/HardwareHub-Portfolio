@@ -11,6 +11,7 @@ import { SearchResults } from './components/SearchResults.tsx'
 import { UserListings } from './components/UserListings.tsx'
 import { Signup } from './components/Signup.tsx'
 import { HandleRedirect } from './components/HandleRedirect.tsx'
+import AllListings from './components/AllListings.tsx'
 
 export default createRoutesFromElements(
   <>
@@ -19,7 +20,7 @@ export default createRoutesFromElements(
       <Route path="playground" element={<Playground />} />
       <Route path="login" element={<HandleRedirect />} />
       <Route path="signup" element={<Signup />} />
-      <Route path="listings" />
+      <Route path="listings" element={<AllListings />} />
       <Route path="listings/create" element={<CreateListing />} />
       <Route path="listings/:id" element={<SingleListing />} />
       <Route path="listings/:id/edit" element={<EditListing />} />
