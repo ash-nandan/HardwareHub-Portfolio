@@ -3,8 +3,11 @@ import { Input } from '@/components/ui/input'
 import useSetupProfile from '../hooks/useSetupProfile'
 import { ProfilePatch } from 'models/profile'
 import { useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export function Signup() {
+  const { user } = useAuth0()
+
   //by making a state object and assigning keys as 'name' state can be handled in a DRY way
   const [form, setForm] = useState<ProfilePatch>({
     username: '',
@@ -16,7 +19,7 @@ export function Signup() {
     addressTwo: '',
     townCity: '',
     postcode: '',
-    imageUrl: '',
+    imageUrl: user?.picture || '',
   })
 
   const setupProfile = useSetupProfile()
