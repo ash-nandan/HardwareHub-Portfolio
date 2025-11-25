@@ -1,5 +1,6 @@
 import express from 'express'
 import * as db from '../db/users'
+import checkJwt, { JwtRequest } from 'server/auth0'
 
 const router = express.Router()
 
@@ -52,6 +53,54 @@ router.get('/check', async (req, res) => {
     const authId = String(req.query.authId)
     const userProfile = await db.checkUserInDatabase(authId)
     res.send(userProfile)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong')
+  }
+})
+
+router.patch('/', checkJwt, async (req: JwtRequest, res) => {
+  const authId = req.auth?.sub
+
+  if (!authId) {
+    console.error('No auth0Id')
+    return res.status(401).send('Unauthorized')
+  }
+
+  try {
+    const {
+      username,
+      firstName,
+      lastName,
+      email,
+      phone,
+      addressOne,
+      addressTwo,
+      townCity,
+      postcode,
+      imageUrl,
+    } = req.body
+    const newUser = await db.updateProfileDetails(
+      authId,
+      username,
+      firstName,
+      lastName,
+      email,
+      phone,
+      addressOne,
+      addressTwo,
+      townCity,
+      postcode,
+      imageUrl,
+    )
+
+    if (!newUser) {
+      return res.sendStatus(400)
+    }
+
+    const newUserId = newUser.id
+
+    res.status(200).json({ updatedUser: newUserId })
   } catch (error) {
     console.error(error)
     res.status(500).send('Something went wrong')

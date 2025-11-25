@@ -1,5 +1,6 @@
 import { ListingActiveTime } from 'models/listings'
 import db from './connection'
+import { ProfileConfirmed } from 'models/profile'
 
 export async function getListingsByUser(
   userId: number,
@@ -55,4 +56,42 @@ export async function checkUserInDatabase(authId: string): Promise<boolean> {
     .first())
     ? true
     : false
+}
+
+export async function updateProfileDetails(
+  authId: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string,
+  addressOne: string,
+  addressTwo: string,
+  townCity: string,
+  postcode: string,
+  imageUrl: string,
+): Promise<ProfileConfirmed> {
+  const result = await db('users')
+    .where('users.auth_id', authId)
+    .update({
+      username,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone,
+      address_one: addressOne,
+      address_two: addressTwo,
+      town_city: townCity,
+      postcode,
+      image_url: imageUrl,
+    })
+    .returning(['id', 'username'])
+
+  const newProfile =
+    //this checks if 'result' is actually array and has an item/s in it
+    Array.isArray(result) && result.length > 0
+      ? result[0]
+      : { id: 0, username: 'unknown' } //fallback
+
+  return newProfile
 }
