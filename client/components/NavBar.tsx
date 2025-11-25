@@ -46,7 +46,7 @@ export default function NavBar() {
         </a>
 
         <div className="flex items-center gap-10 text-lg">
-          <a href="/" className="transition hover:text-hardware-mint">
+          <a href="/listings" className="transition hover:text-hardware-mint">
             Browse
           </a>
           <a
