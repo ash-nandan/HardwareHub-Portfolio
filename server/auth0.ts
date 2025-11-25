@@ -6,7 +6,7 @@ import jwks from 'jwks-rsa'
 
 // TODO: set the domain and audience (API Identifier)
 const domain = 'https://karengo-cypress.au.auth0.com'
-const audience = 'https://https://Hardwarehub/api'
+const audience = 'https://Hardwarehub/api'
 
 const checkJwt = jwt({
   secret: jwks.expressJwtSecret({
