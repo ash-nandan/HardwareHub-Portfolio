@@ -13,6 +13,7 @@ import { useAuth } from '../hooks/authHooks'
 import LoginButton from './LoginButton'
 import SignOutButton from './SignOutButton'
 import { useState } from 'react'
+import { AvatarImage } from '@/components/ui/avatar'
 
 export default function NavBar() {
   const { isAuthenticated, user, isLoading, getUserId } = useAuth()
@@ -31,32 +32,24 @@ export default function NavBar() {
       <div className="flex justify-end space-x-6">
         <a
           href="/"
-          className="mr-6 font-mono text-2xl font-semibold tracking-wide"
+          className="mr-6 font-mono text-3xl font-semibold tracking-wide"
         >
           ⚙️ Hardware Hub
         </a>
 
-        <div className="flex items-center gap-10 text-lg">
-          <a href="/" className="transition hover:text-hardware-mint">
+        <div className="flex items-center gap-8 text-lg">
+          <a
+            href="/"
+            className="cursor-pointer rounded-none bg-hardware-grey px-4 py-2 font-mono text-sm text-hardware-charcoal"
+          >
             Browse
           </a>
 
           {isAuthenticated && (
             <>
               <a
-                href="/mylistings"
-                className="transition hover:text-hardware-mint"
-              >
-                My Listings
-              </a>
-
-              <a href="/bids" className="transition hover:text-hardware-mint">
-                My Bids
-              </a>
-
-              <a
                 href="/listings/create"
-                className="transition hover:text-hardware-mint"
+                className="cursor-pointer rounded-sm bg-hardware-blue px-4 py-2 font-mono text-sm text-hardware-white"
               >
                 Create Listing
               </a>
@@ -118,23 +111,47 @@ export default function NavBar() {
         ) : isAuthenticated && user ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">
-              <div className="flex cursor-pointer items-center gap-3 bg-hardware-grey/90 px-4 py-3">
-                <Avatar className="h-6 w-6 rounded-none border border-hardware-charcoal">
-                  <AvatarFallback className="rounded-none bg-hardware-white"></AvatarFallback>
+              <div className="bgnone flex cursor-pointer items-center gap-3 px-4 py-3">
+                <Avatar className="h-10 w-10 rounded-full border border-none">
+                  <AvatarImage
+                    src={user?.picture}
+                    alt="Profile picture"
+                    className="rounded-full object-cover"
+                  />
+                  <AvatarFallback className="rounded-full bg-hardware-mint" />
                 </Avatar>
-                <span className="font-mono text-hardware-charcoal">
-                  {user.name}
-                </span>
-                <Menu className="text-hardware-charcoal" />
+                <Menu className="text-hardware-white" />
               </div>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="mt-2 w-48 rounded-none p-0">
-              <div className="space-y-6 bg-hardware-white px-6 py-6 font-mono text-hardware-charcoal">
-                <DropdownMenuItem asChild className="rounded-none p-2">
+            <DropdownMenuContent
+              align="end"
+              sideOffset={4}
+              className="mt-2 w-48 rounded-none p-0"
+            >
+              <div className="flex flex-col gap-4 bg-hardware-charcoal px-6 py-6 font-mono text-sm text-hardware-white">
+                <DropdownMenuItem
+                  asChild
+                  className="block w-full rounded-none px-0 py-2 hover:bg-hardware-sky/20"
+                >
                   <Link to="/profile">View Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-none p-2">
+
+                <DropdownMenuItem
+                  asChild
+                  className="block w-full rounded-none px-0 py-2 hover:bg-hardware-sky/20"
+                >
+                  <Link to="/mylistings">My Listings</Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  asChild
+                  className="block w-full rounded-none px-0 py-2 hover:bg-hardware-sky/20"
+                >
+                  <Link to="/bids">My Bids</Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem className="block w-full rounded-none px-0 py-2 shadow-none hover:bg-hardware-sky/20">
                   <SignOutButton />
                 </DropdownMenuItem>
               </div>
