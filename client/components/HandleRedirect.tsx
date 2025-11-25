@@ -24,9 +24,3 @@ export function HandleRedirect() {
 
   return <p>Loading...</p>
 }
-
-//useEffect reminder - runs side code after rendering some data
-//[isAuthenticated, user, navigate] - these things should trigger this side code if they are changed
-//We need since auth0 takes some time to return authentication and user data
-//if (isAuthenticated && user?.sub) > try checking db for authId of user > if it doesn't exist, go to signup page > else, go to home page if it exists
-//UPDATE - moved useEffect to its own component to only run when /redirect route is triggered on click of the sign in button rather than running automatically
