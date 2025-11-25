@@ -39,7 +39,7 @@ export default function NavBar() {
 
         <div className="flex items-center gap-8 text-lg">
           <a
-            href="/"
+            href="/listings"
             className="cursor-pointer rounded-none bg-hardware-grey px-4 py-2 font-mono text-sm text-hardware-charcoal"
           >
             Browse
