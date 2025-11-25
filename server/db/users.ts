@@ -28,25 +28,23 @@ export async function getListingsByUser(
 
 // server/db/users.ts
 //change made of parameter to authId from auth0Id to match table - Joel
+//Had to change from the db.raw format (not supported) to query builder style to avoid crashing - Joel
 export async function getUserByAuthId(authId: string) {
-  const result = await db.raw(
-    'SELECT * FROM users WHERE auth_id = ? LIMIT 1', // Use exact column name!
-    [authId],
-  )
-  return result[0]
+  return await db('users').where({ auth_id: authId }).first()
 }
 
 // server/db/users.ts
 //change made of parameter to authId from auth0Id to match table - Joel
 //removed columns not provided in auth0 signin ie. username, address.. - Joel
+//Had to change from the db.raw format (not supported) to query builder style to avoid crashing - Joel
 export async function createUser(userData: { authId: string; email: string }) {
-  const result = await db.raw(
-    `INSERT INTO users ( auth_id, email,) 
-     VALUES (?, ?) 
-     RETURNING *`,
-    [userData.authId, userData.email],
-  )
-  return result[0]
+  const [newUser] = await db('users')
+    .insert({
+      auth_id: userData.authId,
+      email: userData.email,
+    })
+    .returning('*')
+  return newUser
 }
 
 export async function checkUserInDatabase(authId: string): Promise<boolean> {
