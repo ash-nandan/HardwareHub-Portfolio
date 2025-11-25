@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router'
 import { Profile } from '../../models/profile'
 import EditProfileForm from './EditProfileForm'
 import { useAuth } from '../hooks/authHooks'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const { dbUserId: userId } = useAuth()
   const [editing, setEditing] = useState(false)
-  const navigate = useNavigate()
+  const { logout } = useAuth0()
 
   useEffect(() => {
     async function fetchProfile() {
@@ -50,7 +50,7 @@ export default function ProfilePage() {
         return
       }
       setProfile(null)
-      navigate('/')
+      logout({ logoutParams: { returnTo: window.location.origin } })
     } catch (err) {
       console.error('error deleting profile', err)
     }
