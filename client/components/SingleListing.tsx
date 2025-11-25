@@ -5,12 +5,14 @@ import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { DeleteListing } from './DeleteListing'
 import { UpdateListing } from './UpdateListingButton'
+import { useAuth } from '../hooks/authHooks'
 import { checkBids } from '../apis/bids'
 
 export function SingleListing() {
   const params = useParams()
   const listingId = Number(params.id)
   const navigate = useNavigate()
+  const { isOwner } = useAuth()
 
   const { data, isPending, error } = useQuery({
     queryKey: ['listings', listingId],
@@ -29,6 +31,13 @@ export function SingleListing() {
       return checkBids(listingId)
     },
   })
+
+  const getImgSrc = (itemImage: string) => {
+    if (!itemImage) return '/default-image.png'
+    if (itemImage.startsWith('data:')) return itemImage
+    if (itemImage.startsWith('/')) return itemImage
+    return `/images-listings/${itemImage}`
+  }
 
   if (isPending) {
     return <p>Loading...</p>
@@ -54,6 +63,8 @@ export function SingleListing() {
     return <p>Data not found</p>
   }
 
+  const canManage = isOwner(data.userId)
+
   return (
     <div className="flex flex-wrap justify-center space-x-6">
       <div>
@@ -65,13 +76,11 @@ export function SingleListing() {
           <ArrowLeft className="mr-2 h-4 w-4" />
           <p className="font-mono text-sm">Back to Listings</p>
         </Button>
-
         <img
-          src={`/images-listings/${data.itemImage}`}
+          src={getImgSrc(data.itemImage)}
           alt={data.itemName}
-          className="mb-6 max-w-md"
+          className="h-64 w-full object-cover"
         ></img>
-
         <div className="max-w-md rounded-none bg-hardware-white p-6">
           <h3 className="mb-4 font-mono text-lg">{data.itemName}</h3>
 
@@ -85,17 +94,14 @@ export function SingleListing() {
           <p className="text-sm">
             Seller: <span className="font-semibold">{`${data.username}`}</span>
           </p>
-          {data.isActive ? (
+          {canManage && (
             <div className="flex gap-4">
-              {bidData.length === 0 ? (
-                <DeleteListing listingId={data.listingId} />
-              ) : (
-                ''
-              )}
+              <DeleteListing listingId={data.listingId} />
               <UpdateListing listingId={data.listingId} />
             </div>
-          ) : (
-            <>
+          )}
+          <>
+            {bidData && bidData.length > 0 ? (
               <div className="mt-6 flex justify-end gap-4">
                 <p className="mt-2 text-sm font-bold">This auction has ended</p>
                 <Button
@@ -111,51 +117,52 @@ export function SingleListing() {
                   Finalise Sale
                 </Button>
               </div>
-
-              {/* the matching id means this dialog box will render */}
-              <dialog
-                id="finalise-modal"
-                className="spacy-y-4 pointer-events-none flex max-w-lg flex-col rounded-xl bg-hardware-charcoal p-6 text-center text-hardware-white opacity-0 shadow-2xl transition-all duration-300 backdrop:bg-black/40 backdrop:backdrop-blur-sm open:pointer-events-auto open:opacity-100"
+            ) : (
+              <div className="mt-6">
+                <p className="text-sm text-gray-500"> No bids yet</p>
+              </div>
+            )}
+            {/* the matching id means this dialog box will render */}
+            <dialog
+              id="finalise-modal"
+              className="spacy-y-4 pointer-events-none flex max-w-lg flex-col rounded-xl bg-hardware-charcoal p-6 text-center text-hardware-white opacity-0 shadow-2xl transition-all duration-300 backdrop:bg-black/40 backdrop:backdrop-blur-sm open:pointer-events-auto open:opacity-100"
+            >
+              <h1 className="p-12 font-mono text-2xl">
+                Your sale is finalised!
+              </h1>
+              <h2 className="mb-12 text-center">
+                The winning bid belongs to {bidData[0]?.bidUsername || 'Unkown'}
+                for ${bidData[0]?.bidPrice || '0.00'}
+              </h2>
+              <p>This is the end of the UX for our MVP. Next steps would be:</p>
+              <div className="m-4 flex text-left">
+                <ul className="list-disc space-y-2 pl-2">
+                  <li>
+                    Save this listing to an &apos;archives&apos; table in the
+                    database
+                  </li>
+                  <li>
+                    Delete this listing from the &apos;user_listings&apos; table
+                    in the database
+                  </li>
+                  <li>Communicate the outcome to the winning user</li>
+                </ul>
+              </div>
+              <p className="m-4">- The Hardware Hub Team</p>
+              <button
+                className="mx-auto mb-4 mt-12 w-36 rounded-md bg-hardware-blue px-4 py-4 text-hardware-white"
+                onClick={() => {
+                  const modal = document.getElementById(
+                    'finalise-modal',
+                  ) as HTMLDialogElement
+                  modal.close()
+                  navigate('/')
+                }}
               >
-                <h1 className="p-12 font-mono text-2xl">
-                  Your sale is finalised!
-                </h1>
-                <h2 className="mb-12 text-center">
-                  The winning bid belongs to {bidData[0].bidUsername} for $
-                  {bidData[0].bidPrice}
-                </h2>
-                <p>
-                  This is the end of the UX for our MVP. Next steps would be:
-                </p>
-                <div className="m-4 flex text-left">
-                  <ul className="list-disc space-y-2 pl-2">
-                    <li>
-                      Save this listing to an &apos;archives&apos; table in the
-                      database
-                    </li>
-                    <li>
-                      Delete this listing from the &apos;user_listings&apos;
-                      table in the database
-                    </li>
-                    <li>Communicate the outcome to the winning user</li>
-                  </ul>
-                </div>
-                <p className="m-4">- The Hardware Hub Team</p>
-                <button
-                  className="mx-auto mb-4 mt-12 w-36 rounded-md bg-hardware-blue px-4 py-4 text-hardware-white"
-                  onClick={() => {
-                    const modal = document.getElementById(
-                      'finalise-modal',
-                    ) as HTMLDialogElement
-                    modal.close()
-                    navigate('/')
-                  }}
-                >
-                  Return Home
-                </button>
-              </dialog>
-            </>
-          )}
+                Return Home
+              </button>
+            </dialog>
+          </>
         </div>
       </div>
 

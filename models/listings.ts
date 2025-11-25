@@ -27,6 +27,7 @@ export interface Listing {
   itemDescription: string
   itemImage: string
   username: string
+  userId: number
 }
 
 export interface ListingActiveTime extends Listing {

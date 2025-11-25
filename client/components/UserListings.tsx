@@ -1,20 +1,32 @@
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { timeAgo } from '../utils/timeAgo'
 import { getUserListings } from '../apis/users'
+import { useAuth } from '../hooks/authHooks'
+import { useRequireAuth } from '../hooks/requireAuth'
 
 export function UserListings() {
-  const params = useParams()
-  const userId = Number(params.id)
+  const { getUserId } = useAuth()
+  const { isLoading: authLoading, isAuthenticated } = useRequireAuth()
   const navigate = useNavigate()
 
+  const userId = getUserId()
+
   const { data, isPending, error } = useQuery({
-    queryKey: ['listings', userId],
+    queryKey: ['userListings', userId],
     queryFn: async () => {
+      if (!userId) throw new Error('User ID not found')
       return getUserListings(userId)
     },
   })
+
+  const getImgSrc = (itemImage: string) => {
+    if (!itemImage) return '/default-image.png'
+    if (itemImage.startsWith('data:')) return itemImage
+    if (itemImage.startsWith('/')) return itemImage
+    return `/images-listings/${itemImage}`
+  }
 
   if (isPending) {
     return <p>Loading...</p>
@@ -28,6 +40,18 @@ export function UserListings() {
     return <p>Data not found</p>
   }
 
+  if (authLoading) {
+    return <p className="mt-8 text-center text-white">Loading...</p>
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <p className="mt-8 text-center text-white">
+        You must be logged in to see your listings.
+      </p>
+    )
+  }
+
   return (
     <div>
       <h1 className="py-8 text-center font-mono text-3xl text-white">
@@ -38,8 +62,9 @@ export function UserListings() {
           {data.map((listing) => (
             <div key={listing.listingId}>
               <img
-                src={`/images-listings/${listing.itemImage}`}
+                src={getImgSrc(listing.itemImage)}
                 alt={listing.itemName}
+                className="h-64 w-full object-cover"
               ></img>
               <div className="mb-12 rounded-none bg-hardware-white p-6">
                 <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>

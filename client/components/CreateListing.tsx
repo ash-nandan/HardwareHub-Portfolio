@@ -14,8 +14,13 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ArrowLeft } from 'lucide-react'
+import { useAuth } from '../hooks/authHooks'
+import { useRequireAuth } from '../hooks/requireAuth'
 
 export function CreateListing() {
+  const { getUserId } = useAuth()
+  const { isLoading: authLoading, isAuthenticated } = useRequireAuth()
+
   const [formData, setFormData] = useState<NewListingData>({
     item_name: '',
     item_description: '',
@@ -23,11 +28,13 @@ export function CreateListing() {
     starting_price: 0,
     category_id: 0,
     condition_id: 0,
-    user_id: 1, // hardcoded till auth is done
+    user_id: 1,
   })
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [imageSource, setImageSource] = useState<'upload' | 'Preset'>('upload')
+
+  const userId = getUserId()
 
   const presetImages = [
     '/images-listings/listing1.jpg',
@@ -72,11 +79,17 @@ export function CreateListing() {
       return
     }
 
-    createListingMutation.mutate(formData, {
-      onSuccess: () => {
-        navigate('/')
+    createListingMutation.mutate(
+      {
+        ...formData,
+        user_id: userId || 1,
       },
-    })
+      {
+        onSuccess: () => {
+          navigate('/')
+        },
+      },
+    )
   }
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -92,11 +105,42 @@ export function CreateListing() {
     }
   }
 
-  const handlePresetImageSelect = (imagePath: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      item_image: imagePath,
-    }))
+  const handlePresetImageSelect = async (imagePath: string) => {
+    console.log('1. Selected path:', imagePath)
+    try {
+      const response = await fetch(imagePath)
+      console.log('2. Fetch response:', response.ok)
+      const blob = await response.blob()
+      console.log('3. Blob size:', blob.size)
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        console.log('4. Base64 length:', (reader.result as string).length)
+        console.log(
+          '5. Base64 preview:',
+          (reader.result as string).substring(0, 50),
+        )
+        setFormData((prev) => ({
+          ...prev,
+          item_image: reader.result as string,
+        }))
+      }
+      reader.readAsDataURL(blob)
+    } catch (error) {
+      console.error('Error selecting preset image:', error)
+    }
+  }
+
+  if (authLoading) {
+    return <p className="mt-8 text-center text-white">Loading...</p>
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <p className="mt-8 text-center text-white">
+        You must be logged in to create a listing.
+      </p>
+    )
   }
 
   return (
