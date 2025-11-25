@@ -14,3 +14,25 @@ export interface Profile {
   created_at: string
   updated_at: string
 }
+
+export interface ProfilePatch {
+  username: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  addressOne: string
+  addressTwo: string
+  townCity: string
+  postcode: string
+  imageUrl: string
+}
+
+export interface ProfileConfirmed {
+  id: number
+  username: string
+}
+
+export interface ProfileResponse {
+  updatedUserId: number
+}
