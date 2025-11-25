@@ -50,7 +50,7 @@ export async function createUser(userData: { authId: string; email: string }) {
 
 export async function checkUserInDatabase(authId: string): Promise<boolean> {
   return (await db('users')
-    .where({ 'users.auth_id': authId, 'users.phone': null })
+    .where({ 'users.auth_id': authId, 'users.username': null })
     .select('auth_id as authId')
     .first())
     ? true
