@@ -24,6 +24,7 @@ export default function useSetupProfile() {
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['profile'] })
       //team member used approach for profile component without useQuery and cache, have kept invalidate function for possible future use
+      localStorage.setItem('profileComplete', 'true') //flag for profile
       navigate('/')
     },
   })
