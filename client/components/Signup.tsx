@@ -51,10 +51,6 @@ export function Signup() {
     }
   }
 
-  if (setupProfile.isPending) {
-    return <p>Saving...</p>
-  }
-
   if (setupProfile.isError) {
     return <p>Could not save</p>
   }
@@ -212,7 +208,7 @@ export function Signup() {
 
           <div className="mt-6 flex w-full justify-end">
             <Button
-              disabled={!formComplete}
+              disabled={!formComplete || setupProfile.isPending}
               className="
             rounded-sm bg-hardware-mint px-4 py-2 font-mono text-hardware-charcoal
             hover:bg-hardware-mint/80
@@ -220,7 +216,7 @@ export function Signup() {
             disabled:text-hardware-charcoal/40
           "
             >
-              Save Profile
+              {setupProfile.isPending ? 'Saving…' : 'Save Profile'}
             </Button>
           </div>
         </div>
