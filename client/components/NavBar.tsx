@@ -24,8 +24,9 @@ export default function NavBar() {
   const { data = [] } = useQuery({
     queryKey: ['closedListings', userId],
     queryFn: () => checkClosedUserListings(userId!),
-    enabled: isAuthenticated && !!userId,
+    enabled: !!userId,
     refetchInterval: 2000, //a timed refetch every 2 seconds, to support demo
+    refetchIntervalInBackground: true, //refetch if navigating elsewhere
   })
 
   return (

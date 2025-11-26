@@ -98,12 +98,9 @@ export async function switchUserId(
   userId: number,
   listingId: number,
 ): Promise<SwitchConfirmed> {
-  await db('user_listings')
-    .where('id', listingId)
-    .update({
-      user_id: userId,
-      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 45 * 1000),
-    })
+  await db('user_listings').where('id', listingId).update({
+    user_id: userId,
+  })
 
   return { newUserId: userId, listingId }
 }
