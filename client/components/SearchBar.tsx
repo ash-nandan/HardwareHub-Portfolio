@@ -11,6 +11,7 @@ import { getCategories, getConditions } from '../apis/options'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router'
+import { Search } from 'lucide-react'
 
 export function SearchBar() {
   const [catId, setCatId] = useState(0)
@@ -134,11 +135,12 @@ export function SearchBar() {
 
         <div className="flex w-full justify-end md:w-auto">
           <Button
+            aria-label="search listings"
             disabled={searchDisabled}
             className="border-mint group w-full max-w-[120px] rounded-none bg-hardware-sky py-2 text-sm text-white md:w-auto"
             onClick={handleClick}
           >
-            <span className="mr-1 text-lg group-disabled:opacity-20">🔍</span>
+            <Search className="mr-1 text-lg text-hardware-charcoal group-disabled:opacity-20" />
           </Button>
         </div>
       </div>

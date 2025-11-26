@@ -38,12 +38,9 @@ export default function AllListings() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 place-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {data.map((listing: Listing) => (
           <div key={listing.listingId}>
-            <img
-              src={`/images-listings/${listing.itemImage}`}
-              alt={listing.itemName}
-            />
+            <img src={`/images-listings/${listing.itemImage}`} alt="" />
             <div className="mb-12 rounded-none bg-hardware-white p-6">
-              <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
+              <h2 className="mb-4 font-mono text-lg">{listing.itemName}</h2>
               <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(
                 2,
               )}`}</p>
