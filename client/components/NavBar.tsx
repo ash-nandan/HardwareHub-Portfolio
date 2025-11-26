@@ -25,6 +25,7 @@ export default function NavBar() {
     queryKey: ['closedListings', userId],
     queryFn: () => checkClosedUserListings(userId!),
     enabled: isAuthenticated && !!userId,
+    refetchInterval: 2000, //a timed refetch every 2 seconds, to support demo
   })
 
   return (
