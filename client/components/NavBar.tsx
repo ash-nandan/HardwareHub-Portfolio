@@ -213,7 +213,7 @@ export default function NavBar() {
                     asChild
                     className="block w-full rounded-none px-0 py-2 hover:bg-hardware-sky/20"
                   >
-                    <Link to="/bids">My Bids</Link>
+                    <Link to={`/bids/${userId}`}>My Bids</Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="block w-full rounded-none px-0 py-2 shadow-none hover:bg-hardware-sky/20">
