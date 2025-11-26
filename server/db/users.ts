@@ -102,6 +102,7 @@ export async function switchUserId(
     .where('id', listingId)
     .update({
       user_id: userId,
+      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 45 * 1000),
     })
     .returning(['user_id as newUserId', 'id as listingId'])
 
