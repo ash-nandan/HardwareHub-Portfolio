@@ -19,6 +19,8 @@ router.get('/search', async (req, res) => {
 
 router.get('/check', async (req, res) => {
   try {
+    await db.closeListings()
+
     const userId = Number(req.query.userId)
 
     const closedListings = await db.checkClosedListings(userId)
@@ -31,6 +33,7 @@ router.get('/check', async (req, res) => {
 
 router.get('/recent', async (req, res) => {
   try {
+    await db.closeListings()
     const recentListings = await db.getAllRecentListings()
     res.json(recentListings)
   } catch (error) {
@@ -41,6 +44,7 @@ router.get('/recent', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
+    await db.closeListings()
     const listings = await db.getAllListings()
     res.json(listings)
   } catch (error) {
@@ -51,6 +55,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
+    await db.closeListings()
     const listingId = Number(req.params.id)
     const listing = await db.getListingById(listingId)
     res.json(listing)

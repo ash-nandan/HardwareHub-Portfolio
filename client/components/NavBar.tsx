@@ -12,7 +12,7 @@ import { Link } from 'react-router'
 import { useAuth } from '../hooks/authHooks'
 import LoginButton from './LoginButton'
 import SignOutButton from './SignOutButton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AvatarImage } from '@/components/ui/avatar'
 
 export default function NavBar() {
@@ -24,8 +24,16 @@ export default function NavBar() {
   const { data = [] } = useQuery({
     queryKey: ['closedListings', userId],
     queryFn: () => checkClosedUserListings(userId!),
-    enabled: isAuthenticated && !!userId,
+    enabled: !!userId,
+    refetchInterval: 2000, //a timed refetch every 2 seconds, to support demo
+    refetchIntervalInBackground: true, //refetch if navigating elsewhere
   })
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setNotificationSeen(false)
+    }
+  }, [data.length]) //a side check - if the closedListings array returns data set notifications as seen to false, this triggers BellDot to render
 
   return (
     <nav className="4 bg-hardware-navy text-white shadow">
@@ -213,7 +221,7 @@ export default function NavBar() {
                     asChild
                     className="block w-full rounded-none px-0 py-2 hover:bg-hardware-sky/20"
                   >
-                    <Link to="/bids">My Bids</Link>
+                    <Link to={`/bids/${userId}`}>My Bids</Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="block w-full rounded-none px-0 py-2 shadow-none hover:bg-hardware-sky/20">

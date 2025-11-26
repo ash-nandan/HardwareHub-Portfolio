@@ -1,4 +1,4 @@
-import { ListingActiveTime } from 'models/listings'
+import { ListingActiveTime, SwitchConfirmed } from 'models/listings'
 import db from './connection'
 import { ProfileConfirmed } from 'models/profile'
 
@@ -92,4 +92,27 @@ export async function updateProfileDetails(
       : { id: 0, username: 'unknown' } //fallback
 
   return newProfile
+}
+
+export async function switchUserId(
+  userId: number,
+  listingId: number,
+): Promise<SwitchConfirmed> {
+  await db('user_listings').where('id', listingId).update({
+    user_id: userId,
+  })
+
+  return { newUserId: userId, listingId }
+}
+
+//function mirrored from listings route
+export async function closeListings() {
+  const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+
+  const res = await db('user_listings')
+    .where('is_active', true)
+    .andWhere('created_at', '<', fiveDaysAgo) //andWhere gives clairty of both
+    .update({ is_active: false })
+
+  return res
 }

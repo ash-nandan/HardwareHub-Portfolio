@@ -88,12 +88,12 @@ export function SearchBar() {
 
         <div className="w-full md:w-80">
           <Select onValueChange={(value) => setCatId(Number(value))}>
-            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-sm text-hardware-charcoal">
+            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
               {catData.map((cat) => (
-                <SelectItem key={cat.id} value={String(cat.id)}>
+                <SelectItem key={cat.id} value={String(cat.id) || ''}>
                   {cat.name}
                 </SelectItem>
               ))}
@@ -103,14 +103,14 @@ export function SearchBar() {
 
         <div className="w-full md:w-80">
           <Select onValueChange={(value) => setConId(Number(value))}>
-            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-sm text-hardware-charcoal">
+            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
               <SelectValue placeholder="Condition" />
             </SelectTrigger>
             <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
               {conData.map((con) => (
                 <SelectItem
                   key={con.id}
-                  value={String(con.id)}
+                  value={String(con.id) || ''}
                   className="rounded-none"
                 >
                   {con.description}
@@ -120,7 +120,7 @@ export function SearchBar() {
           </Select>
         </div>
 
-        <div className="w-full md:w-96">
+        <div className="w-full md:w-80 lg:w-80">
           <Input
             onChange={(e) => setKeywords(e.target.value)}
             placeholder="Keywords"

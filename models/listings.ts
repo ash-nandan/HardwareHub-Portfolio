@@ -41,3 +41,8 @@ export interface ClosedListingCheck {
   itemImage: string
   isActive: boolean
 }
+
+export interface SwitchConfirmed {
+  newUserId: number
+  listingId: number
+}

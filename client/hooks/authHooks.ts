@@ -20,7 +20,7 @@ export const useAuth = () => {
           })
 
           console.log('Sync response:', response.body)
-          setDbUserId(response.body.id)
+          setDbUserId(response.body.user.id) //body updated since switch id added - Joel
         } catch (error) {
           console.error('Error syncing user:', error)
         }

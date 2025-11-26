@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.get('/:id', async (req, res) => {
   try {
+    await db.closeListings()
     const userId = Number(req.params.id)
     const userListings = await db.getListingsByUser(userId)
     res.json(userListings)
@@ -41,7 +42,12 @@ router.post('/sync', async (req, res) => {
       })
     }
 
-    res.json(user)
+    const userId = user.id
+    const listingId = 5
+
+    const demoUserListing = await db.switchUserId(userId, listingId)
+
+    res.json({ user, demoUserListing })
   } catch (error) {
     console.error('Sync error:', error)
     res.status(500).json({ error: 'Error syncing user' })
