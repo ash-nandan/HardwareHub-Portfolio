@@ -12,7 +12,7 @@ import { Link } from 'react-router'
 import { useAuth } from '../hooks/authHooks'
 import LoginButton from './LoginButton'
 import SignOutButton from './SignOutButton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AvatarImage } from '@/components/ui/avatar'
 
 export default function NavBar() {
@@ -28,6 +28,12 @@ export default function NavBar() {
     refetchInterval: 2000, //a timed refetch every 2 seconds, to support demo
     refetchIntervalInBackground: true, //refetch if navigating elsewhere
   })
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setNotificationSeen(false)
+    }
+  }, [data.length]) //a side check - if the closedListings array returns data set notifications as seen to false, this triggers BellDot to render
 
   return (
     <nav className="4 bg-hardware-navy text-white shadow">
