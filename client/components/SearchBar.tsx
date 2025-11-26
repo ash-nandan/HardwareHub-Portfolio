@@ -84,7 +84,7 @@ export function SearchBar() {
           </SelectTrigger>
           <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
             {catData.map((cat) => (
-              <SelectItem key={cat.id} value={String(cat.id)}>
+              <SelectItem key={cat.id} value={String(cat.id) || ''}>
                 {cat.name}
               </SelectItem>
             ))}
@@ -99,7 +99,7 @@ export function SearchBar() {
             {conData.map((con) => (
               <SelectItem
                 key={con.id}
-                value={String(con.id)}
+                value={String(con.id) || ''}
                 className="rounded-none"
               >
                 {con.description}
