@@ -75,7 +75,13 @@ export function SearchBar() {
 
   return (
     <div className="bg-hardware-sky px-4 py-4 sm:px-6 md:px-8">
-      <div className="mx-auto flex max-w-5xl flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-6">
+      <div
+        className="
+  mx-auto flex max-w-5xl flex-col gap-4
+  md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-6
+  lg:flex-nowrap lg:justify-center
+"
+      >
         <span className="w-full font-mono text-sm text-hardware-charcoal md:w-auto md:text-base">
           Search
         </span>
@@ -129,7 +135,6 @@ export function SearchBar() {
             onClick={handleClick}
           >
             <span className="mr-1 text-lg group-disabled:opacity-20">🔍</span>
-            <span className="hidden sm:inline">Search</span>
           </Button>
         </div>
       </div>
