@@ -19,6 +19,8 @@ router.get('/search', async (req, res) => {
 
 router.get('/check', async (req, res) => {
   try {
+    await db.closeListings()
+
     const userId = Number(req.query.userId)
 
     const closedListings = await db.checkClosedListings(userId)
