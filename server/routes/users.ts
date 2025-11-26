@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.get('/:id', async (req, res) => {
   try {
+    await db.closeListings()
     const userId = Number(req.params.id)
     const userListings = await db.getListingsByUser(userId)
     res.json(userListings)
