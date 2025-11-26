@@ -63,7 +63,7 @@ export function SingleListing() {
     return <p>Data not found</p>
   }
 
-  const canManage = isOwner(data.userId)
+  const canManage = isOwner(data.userId) && data.isActive
 
   return (
     <div className="flex flex-wrap justify-center space-x-6">
