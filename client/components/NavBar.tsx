@@ -185,14 +185,14 @@ export default function NavBar() {
                     />
                     <AvatarFallback className="rounded-full bg-hardware-mint" />
                   </Avatar>
-                  <Menu className="h-5 w-5 text-hardware-white sm:h-6 sm:w-6" />
+                  <Menu className="hidden h-5 w-5 text-hardware-white sm:h-6 sm:w-6 md:flex" />
                 </div>
               </DropdownMenuTrigger>
 
               <DropdownMenuContent
                 align="end"
                 sideOffset={4}
-                className="mt-2 w-48 rounded-none bg-hardware-charcoal p-0 font-mono text-sm text-hardware-white"
+                className="mt-2 hidden w-48 rounded-none bg-hardware-charcoal p-0 font-mono text-sm text-hardware-white md:flex"
               >
                 <div className="flex flex-col gap-3 px-6 py-6">
                   <DropdownMenuItem
