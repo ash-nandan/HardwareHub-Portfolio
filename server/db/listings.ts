@@ -109,6 +109,7 @@ export async function getAllListings(): Promise<Listing[]> {
     .join('users', 'user_listings.user_id', 'users.id')
     .join('categories', 'user_listings.category_id', 'categories.id')
     .join('conditions', 'user_listings.condition_id', 'conditions.id')
+    .where('user_listings.is_active', true)
     .select(
       'user_listings.id as listingId',
       'categories.name as categoryName',
