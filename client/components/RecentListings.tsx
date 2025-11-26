@@ -40,11 +40,13 @@ export function RecentListings() {
   }
   return (
     <div>
-      <img
-        src={'/images-app/landing-page-cover.jpg'}
-        alt="find it build it cover"
-        className="mx-auto hidden w-full max-w-xl p-12 sm:block md:max-w-4xl lg:max-w-6xl"
-      ></img>
+      <div className="drop-shadow-[0_0_3px_rgba(130,200,255,0.6)]">
+        <img
+          src={'/images-app/landing-page-cover.jpg'}
+          alt="find it build it cover"
+          className="mx-auto hidden w-full max-w-xl p-12 sm:block md:max-w-4xl lg:max-w-6xl"
+        ></img>
+      </div>
       <h1 className="py-8 text-center font-mono text-3xl text-white">
         Recent Listings
       </h1>
@@ -79,3 +81,7 @@ export function RecentListings() {
     </div>
   )
 }
+
+//tailwind styling note:
+//drop-shadow-[0_0_3px_rgba(130,200,255,0.6)]
+//set a shadow on image with strength of 3px and our sky colour broken down into rgba format
