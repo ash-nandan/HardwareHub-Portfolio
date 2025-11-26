@@ -121,8 +121,12 @@ export function SearchBar() {
         </div>
 
         <div className="w-full md:w-80 lg:w-80">
+          <label htmlFor="keywords" className="sr-only">
+            Keywords
+          </label>
           <Input
             onChange={(e) => setKeywords(e.target.value)}
+            id="keywords"
             placeholder="Keywords"
             className="w-full rounded-none bg-hardware-white p-2 text-sm text-hardware-charcoal"
           />

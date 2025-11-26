@@ -42,8 +42,14 @@ export default function NavBar() {
         <div className="flex items-center gap-4">
           {/* Mobile hamburger menu */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center focus:outline-none md:hidden">
-              <Menu className="h-6 w-6 text-hardware-white" />
+            <DropdownMenuTrigger
+              aria-label="Open menu"
+              className="flex items-center focus:outline-none md:hidden"
+            >
+              <Menu
+                aria-hidden="true"
+                className="h-6 w-6 text-hardware-white"
+              />
             </DropdownMenuTrigger>
 
             <DropdownMenuContent

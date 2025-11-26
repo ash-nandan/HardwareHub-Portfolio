@@ -54,11 +54,11 @@ export function RecentListings() {
             <div key={listing.listingId}>
               <img
                 src={getImgSrc(listing.itemImage)}
-                alt={listing.itemName}
+                alt=""
                 className="h-64 w-full object-cover"
               ></img>
               <div className="mb-12 rounded-none bg-hardware-white p-6">
-                <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
+                <h2 className="mb-4 font-mono text-lg">{listing.itemName}</h2>
                 <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(2)}`}</p>
                 <div className="my-4 flex max-w-32 justify-between text-sm">
                   <p>Posted:</p>
