@@ -63,7 +63,7 @@ export async function seed(knex) {
       item_description:
         '1TB Samsung 970 EVO Plus NVMe SSD with very low power-on hours. Used as a secondary drive for game storage.',
       item_image: 'listing5.jpg',
-      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 - 5),
+      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 45 * 1000), // 45 seconds less than five full days for expired demo
       is_active: true,
     },
     {
