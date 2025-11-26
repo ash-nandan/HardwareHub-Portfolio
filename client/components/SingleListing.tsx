@@ -19,6 +19,8 @@ export function SingleListing() {
     queryFn: async () => {
       return getSingleListing(listingId)
     },
+    refetchInterval: 2000, //timed refetch every 2 seconds
+    refetchOnWindowFocus: true, //refetch on return to listing page
   })
 
   const {
@@ -63,7 +65,12 @@ export function SingleListing() {
     return <p>Data not found</p>
   }
 
-  const canManage = isOwner(data.userId) && data.isActive
+  //time has expired
+  const isClosed = !data.isActive
+  //auction still open and user is owner
+  const canManage = isOwner(data.userId) && !isClosed
+  //time expired, there are bids, user is owner = can finalise sale
+  const showFinalise = isClosed && bidData.length > 0 && isOwner(data.userId)
 
   return (
     <div className="flex flex-wrap justify-center space-x-6">
@@ -101,21 +108,24 @@ export function SingleListing() {
             </div>
           )}
           <>
-            {bidData && bidData.length > 0 ? (
+            {isClosed ? (
               <div className="mt-6 flex justify-end gap-4">
                 <p className="mt-2 text-sm font-bold">This auction has ended</p>
-                <Button
-                  onClick={() => {
-                    //create modal that finds dom element with matching id
-                    const modal = document.getElementById(
-                      'finalise-modal',
-                    ) as HTMLDialogElement
-                    modal.showModal()
-                  }}
-                  className="bg-red-600 text-hardware-white"
-                >
-                  Finalise Sale
-                </Button>
+
+                {showFinalise && (
+                  <Button
+                    onClick={() => {
+                      //create modal that finds dom element with matching id
+                      const modal = document.getElementById(
+                        'finalise-modal',
+                      ) as HTMLDialogElement
+                      modal.showModal()
+                    }}
+                    className="bg-red-600 text-hardware-white"
+                  >
+                    Finalise Sale
+                  </Button>
+                )}
               </div>
             ) : (
               <div className="mt-6">
