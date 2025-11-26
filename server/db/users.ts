@@ -99,14 +99,11 @@ export async function switchUserId(
   listingId: number,
 ): Promise<SwitchConfirmed[]> {
   const result = await db('user_listings')
-    .where('user_listings.id', listingId)
+    .where('id', listingId)
     .update({
-      'user_listings.user_id': userId,
+      user_id: userId,
     })
-    .returning([
-      'user_listings.user_id as newUserId',
-      'user_listings.id as listingId',
-    ])
+    .returning(['user_id as newUserId', 'id as listingId'])
 
   return result
 }
