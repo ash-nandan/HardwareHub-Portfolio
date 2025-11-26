@@ -74,52 +74,64 @@ export function SearchBar() {
   const searchDisabled = catId === 0 || conId === 0
 
   return (
-    <div>
-      <div className="flex items-center justify-center gap-6 bg-hardware-sky px-8 py-6">
-        <span className="font-mono text-hardware-charcoal">Search</span>
+    <div className="bg-hardware-sky px-4 py-4 sm:px-6 md:px-8">
+      <div className="mx-auto flex max-w-5xl flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-6">
+        <span className="w-full font-mono text-sm text-hardware-charcoal md:w-auto md:text-base">
+          Search
+        </span>
 
-        <Select onValueChange={(value) => setCatId(Number(value))}>
-          <SelectTrigger className="w-80 rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
-            <SelectValue placeholder="Category" />
-          </SelectTrigger>
-          <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
-            {catData.map((cat) => (
-              <SelectItem key={cat.id} value={String(cat.id)}>
-                {cat.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="w-full md:w-80">
+          <Select onValueChange={(value) => setCatId(Number(value))}>
+            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-sm text-hardware-charcoal">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+              {catData.map((cat) => (
+                <SelectItem key={cat.id} value={String(cat.id)}>
+                  {cat.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-        <Select onValueChange={(value) => setConId(Number(value))}>
-          <SelectTrigger className="w-80 rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
-            <SelectValue placeholder="Condition" />
-          </SelectTrigger>
-          <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
-            {conData.map((con) => (
-              <SelectItem
-                key={con.id}
-                value={String(con.id)}
-                className="rounded-none"
-              >
-                {con.description}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="w-full md:w-80">
+          <Select onValueChange={(value) => setConId(Number(value))}>
+            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-sm text-hardware-charcoal">
+              <SelectValue placeholder="Condition" />
+            </SelectTrigger>
+            <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+              {conData.map((con) => (
+                <SelectItem
+                  key={con.id}
+                  value={String(con.id)}
+                  className="rounded-none"
+                >
+                  {con.description}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-        <Input
-          onChange={(e) => setKeywords(e.target.value)}
-          placeholder="Keywords"
-          className="text-md w-96 rounded-none bg-hardware-white p-1 text-hardware-charcoal"
-        />
-        <Button
-          disabled={searchDisabled}
-          className="group"
-          onClick={handleClick}
-        >
-          <span className="text-2xl group-disabled:opacity-20">🔍</span>
-        </Button>
+        <div className="w-full md:w-96">
+          <Input
+            onChange={(e) => setKeywords(e.target.value)}
+            placeholder="Keywords"
+            className="w-full rounded-none bg-hardware-white p-2 text-sm text-hardware-charcoal"
+          />
+        </div>
+
+        <div className="flex w-full justify-end md:w-auto">
+          <Button
+            disabled={searchDisabled}
+            className="border-mint group w-full max-w-[120px] rounded-none bg-hardware-sky py-2 text-sm text-white md:w-auto"
+            onClick={handleClick}
+          >
+            <span className="mr-1 text-lg group-disabled:opacity-20">🔍</span>
+            <span className="hidden sm:inline">Search</span>
+          </Button>
+        </div>
       </div>
     </div>
   )
