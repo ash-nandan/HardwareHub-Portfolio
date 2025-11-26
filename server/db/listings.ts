@@ -166,3 +166,14 @@ export async function checkClosedListings(
 
   return res
 }
+
+export async function closeListings() {
+  const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+
+  const res = await db('user_listings')
+    .where('is_active', true)
+    .andWhere('created_at', '<', fiveDaysAgo) //andWhere gives clairty of both
+    .update({ is_active: false })
+
+  return res
+}

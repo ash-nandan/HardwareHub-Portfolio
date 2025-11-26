@@ -41,6 +41,7 @@ router.get('/recent', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
+    await db.closeListings()
     const listings = await db.getAllListings()
     res.json(listings)
   } catch (error) {
