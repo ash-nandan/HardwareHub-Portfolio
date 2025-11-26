@@ -1,4 +1,4 @@
-import { ListingActiveTime } from 'models/listings'
+import { ListingActiveTime, SwitchConfirmed } from 'models/listings'
 import db from './connection'
 import { ProfileConfirmed } from 'models/profile'
 
@@ -92,4 +92,21 @@ export async function updateProfileDetails(
       : { id: 0, username: 'unknown' } //fallback
 
   return newProfile
+}
+
+export async function switchUserId(
+  userId: number,
+  listingId: number,
+): Promise<SwitchConfirmed[]> {
+  const result = await db('user_listings')
+    .where('user_listings.id', listingId)
+    .update({
+      'user_listings.user_id': userId,
+    })
+    .returning([
+      'user_listings.user_id as newUserId',
+      'user_listings.id as listingId',
+    ])
+
+  return result
 }

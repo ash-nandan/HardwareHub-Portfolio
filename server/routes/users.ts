@@ -41,7 +41,12 @@ router.post('/sync', async (req, res) => {
       })
     }
 
-    res.json(user)
+    const userId = user.id
+    const listingId = 5
+
+    const demoUserListing = await db.switchUserId(userId, listingId)
+
+    res.json({ user, demoUserListing })
   } catch (error) {
     console.error('Sync error:', error)
     res.status(500).json({ error: 'Error syncing user' })
