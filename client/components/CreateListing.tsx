@@ -160,15 +160,15 @@ export function CreateListing() {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="flex flex-col space-y-6 rounded-none bg-hardware-blue p-8 text-white">
-              <h2 className="mb-4 text-center font-mono text-xl">
+              <h3 className="mb-4 text-center font-mono text-xl">
                 1. Fill in details
-              </h2>
+              </h3>
 
               <div>
-                <Label htmlFor="item_name">Item Name</Label>
+                <Label>Item Name</Label>
                 <input
                   type="text"
-                  id="item_name"
+                  name="item_name"
                   value={formData.item_name}
                   onChange={handleChange}
                   placeholder="Enter item name"
@@ -178,10 +178,10 @@ export function CreateListing() {
               </div>
 
               <div>
-                <Label htmlFor="starting_price">Listing Price</Label>
+                <Label>Listing Price</Label>
                 <input
                   type="number"
-                  id="starting_price"
+                  name="starting_price"
                   value={formData.starting_price}
                   onChange={handleChange}
                   placeholder="Enter starting price"
@@ -191,23 +191,16 @@ export function CreateListing() {
               </div>
 
               <div>
-                <Label id="category_label" htmlFor="category_select">
-                  Category
-                </Label>
+                <Label>Category</Label>
                 <Select
                   value={formData.category_id.toString()}
                   onValueChange={(value) =>
                     handleSelectChange('category_id', value)
                   }
                 >
-                  <SelectTrigger
-                    id="category_select"
-                    aria-labelledby="category_label"
-                    className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal"
-                  >
+                  <SelectTrigger className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
                     <SelectValue placeholder="Choose one" />
                   </SelectTrigger>
-
                   <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
                     <SelectItem value="1" className="rounded-none">
                       CPU
@@ -235,23 +228,16 @@ export function CreateListing() {
               </div>
 
               <div>
-                <Label id="condition_label" htmlFor="condition_select">
-                  Condition
-                </Label>
+                <Label>Condition</Label>
                 <Select
                   value={formData.condition_id.toString()}
                   onValueChange={(value) =>
                     handleSelectChange('condition_id', value)
                   }
                 >
-                  <SelectTrigger
-                    id="condition_select"
-                    aria-labelledby="condition_label"
-                    className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal"
-                  >
+                  <SelectTrigger className="mt-1 w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
                     <SelectValue placeholder="Choose one" />
                   </SelectTrigger>
-
                   <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
                     <SelectItem value="1" className="rounded-none">
                       New
@@ -267,9 +253,9 @@ export function CreateListing() {
               </div>
 
               <div>
-                <Label htmlFor="item_description">Description</Label>
+                <Label>Description</Label>
                 <Textarea
-                  id="item_description"
+                  name="item_description"
                   value={formData.item_description}
                   onChange={handleChange}
                   placeholder="Write a brief description about this listing..."
