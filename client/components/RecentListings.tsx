@@ -40,11 +40,13 @@ export function RecentListings() {
   }
   return (
     <div>
-      <img
-        src={'/images-app/landing-page-cover.jpg'}
-        alt="find it build it cover"
-        className="mx-auto hidden w-full max-w-xl p-12 sm:block md:max-w-4xl lg:max-w-6xl"
-      ></img>
+      <div className="relative z-0 drop-shadow-[0_0_3px_rgba(130,200,255,0.6)]">
+        <img
+          src={'/images-app/landing-page-cover.jpg'}
+          alt="find it build it cover"
+          className="mx-auto hidden w-full max-w-xl p-12 sm:block md:max-w-4xl lg:max-w-6xl"
+        ></img>
+      </div>
       <h1 className="py-8 text-center font-mono text-3xl text-white">
         Recent Listings
       </h1>
@@ -54,11 +56,11 @@ export function RecentListings() {
             <div key={listing.listingId}>
               <img
                 src={getImgSrc(listing.itemImage)}
-                alt={listing.itemName}
+                alt=""
                 className="h-64 w-full object-cover"
               ></img>
               <div className="mb-12 rounded-none bg-hardware-white p-6">
-                <h3 className="mb-4 font-mono text-lg">{listing.itemName}</h3>
+                <h2 className="mb-4 font-mono text-lg">{listing.itemName}</h2>
                 <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(2)}`}</p>
                 <div className="my-4 flex max-w-32 justify-between text-sm">
                   <p>Posted:</p>
@@ -79,3 +81,7 @@ export function RecentListings() {
     </div>
   )
 }
+
+//tailwind styling note:
+//drop-shadow-[0_0_3px_rgba(130,200,255,0.6)]
+//set a shadow on image with strength of 3px and our sky colour broken down into rgba format

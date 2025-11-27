@@ -62,9 +62,9 @@ export function Signup() {
     <form onSubmit={handleSubmit}>
       <div className="mt-12 flex flex-col items-center justify-center gap-10 p-4 md:flex-row">
         <div className="w-full max-w-lg space-y-6 rounded-none bg-hardware-blue p-10 text-white">
-          <h3 className="mb-6 text-center font-mono text-2xl">
+          <h2 className="mb-6 text-center font-mono text-2xl">
             Complete your profile
-          </h3>
+          </h2>
 
           <div className="space-y-6 text-sm">
             <div className="space-y-1">
