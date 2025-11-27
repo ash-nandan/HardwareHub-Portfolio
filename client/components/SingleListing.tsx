@@ -85,7 +85,7 @@ export function SingleListing() {
         </Button>
         <img
           src={getImgSrc(data.itemImage)}
-          alt={data.itemName}
+          alt=""
           className="h-64 w-full object-cover"
         ></img>
         <div className="max-w-md rounded-none bg-hardware-white p-6">
@@ -129,7 +129,10 @@ export function SingleListing() {
               </div>
             ) : (
               <div className="mt-6">
-                <p className="text-sm text-gray-500"> No bids yet</p>
+                <p className="text-sm text-hardware-charcoal/80">
+                  {' '}
+                  No bids yet
+                </p>
               </div>
             )}
             {/* the matching id means this dialog box will render */}

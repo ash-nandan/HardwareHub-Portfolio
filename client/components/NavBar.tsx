@@ -146,9 +146,12 @@ export default function NavBar() {
             >
               <DropdownMenuTrigger className="focus:outline-none">
                 {data.length > 0 && !notificationSeen ? (
-                  <BellDot className="text-hardware-mint" />
+                  <BellDot
+                    aria-label="Open new notifications"
+                    className="text-hardware-mint"
+                  />
                 ) : (
-                  <Bell />
+                  <Bell aria-label="Open notifications" />
                 )}
               </DropdownMenuTrigger>
 
@@ -171,7 +174,7 @@ export default function NavBar() {
                               Your auction for {listing.itemName} has ended.
                             </p>
                             <p className="flex justify-end text-xs">
-                              Click to complete sale &gt;
+                              Finalise sale &gt;
                             </p>
                           </div>
                         </Link>
@@ -206,7 +209,7 @@ export default function NavBar() {
               <DropdownMenuContent
                 align="end"
                 sideOffset={4}
-                className="mt-2 hidden w-48 rounded-none bg-hardware-charcoal p-0 font-mono text-sm text-hardware-white md:flex"
+                className="relative z-50 mt-2 hidden w-48 rounded-none bg-hardware-charcoal p-0 font-mono text-sm text-hardware-white md:flex"
               >
                 <div className="flex flex-col gap-3 px-6 py-6">
                   <DropdownMenuItem

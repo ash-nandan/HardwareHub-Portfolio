@@ -40,7 +40,7 @@ export function RecentListings() {
   }
   return (
     <div>
-      <div className="drop-shadow-[0_0_3px_rgba(130,200,255,0.6)]">
+      <div className="relative z-0 drop-shadow-[0_0_3px_rgba(130,200,255,0.6)]">
         <img
           src={'/images-app/landing-page-cover.jpg'}
           alt="find it build it cover"
