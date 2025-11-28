@@ -1,4 +1,5 @@
 export async function seed(knex) {
+  await knex('bids').del()
   await knex('user_listings').del()
   await knex('user_listings').insert([
     {
@@ -11,6 +12,8 @@ export async function seed(knex) {
       item_description:
         'Six-core Intel Core i5-11400F pulled from a working gaming build. Runs cool and has never been overclocked. Great budget option for 1080p gaming.',
       item_image: 'listing1.jpg',
+      created_at: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 - 1), // 4 days ago
+      is_active: true,
     },
     {
       id: 2,
@@ -22,6 +25,10 @@ export async function seed(knex) {
       item_description:
         'RTX 3060 12GB used lightly for casual gaming, never mined on. Original box included and kept in a smoke-free home.',
       item_image: 'listing2.jpg',
+      created_at: new Date(
+        Date.now() - 4 * 24 * 60 * 60 * 1000 - 20 * 60 * 60 * 1000,
+      ), // 4 days 20 hours ago
+      is_active: true,
     },
     {
       id: 3,
@@ -33,6 +40,10 @@ export async function seed(knex) {
       item_description:
         'Brand new MSI B550 Tomahawk still in sealed anti-static bag. Bought for a build that changed direction before assembly.',
       item_image: 'listing3.jpg',
+      created_at: new Date(
+        Date.now() - 4 * 24 * 60 * 60 * 1000 - 22 * 60 * 60 * 1000,
+      ), // 4 days 22 hours ago
+      is_active: true,
     },
     {
       id: 4,
@@ -44,6 +55,8 @@ export async function seed(knex) {
       item_description:
         '16GB kit of Corsair Vengeance LPX DDR4-3200. Used for about two years in a home office PC with no issues.',
       item_image: 'listing4.jpg',
+      created_at: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 - 4), // 4 days ago
+      is_active: true,
     },
     {
       id: 5,
@@ -55,6 +68,8 @@ export async function seed(knex) {
       item_description:
         '1TB Samsung 970 EVO Plus NVMe SSD with very low power-on hours. Used as a secondary drive for game storage.',
       item_image: 'listing5.jpg',
+      created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 120000), // 2 minute before expiry, from when seeded
+      is_active: true,
     },
     {
       id: 6,
@@ -66,6 +81,25 @@ export async function seed(knex) {
       item_description:
         'Seasonic Focus GX-750 fully modular 750W power supply, 80+ Gold rated. Still in original packaging with all modular cables included.',
       item_image: 'listing6.jpg',
+      created_at: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000), // inactive, safe
+      is_active: false,
+    },
+    {
+      id: 7,
+      user_id: 2,
+      category_id: 1,
+      condition_id: 2,
+      item_name: 'ADATA XPG SX8200 Pro 512GB NVMe SSD',
+      starting_price: 75,
+      item_description:
+        'Fast and reliable NVMe SSD ideal for gaming and productivity. Lightly used with excellent health status.',
+      item_image: 'listing1.jpg',
+      created_at: new Date(
+        Date.now() - 4 * 24 * 60 * 60 * 1000 - 12 * 60 * 60 * 1000,
+      ), // 4 days 12 hours ago
+      is_active: true,
     },
   ])
+
+  //times assigned to work with demo experience for signed in user
 }

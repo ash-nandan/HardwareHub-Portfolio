@@ -1,0 +1,92 @@
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router'
+import { ChevronRight } from 'lucide-react'
+import { timeAgo } from '../utils/timeAgo'
+import { getUserListings } from '../apis/users'
+import { useAuth } from '../hooks/authHooks'
+import { useRequireAuth } from '../hooks/requireAuth'
+
+export function UserListings() {
+  const { getUserId } = useAuth()
+  const { isLoading: authLoading, isAuthenticated } = useRequireAuth()
+  const navigate = useNavigate()
+
+  const userId = getUserId()
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ['userListings', userId],
+    queryFn: async () => {
+      if (!userId) throw new Error('User ID not found')
+      return getUserListings(userId)
+    },
+  })
+
+  const getImgSrc = (itemImage: string) => {
+    if (!itemImage) return '/default-image.png'
+    if (itemImage.startsWith('data:')) return itemImage
+    if (itemImage.startsWith('/')) return itemImage
+    return `/images-listings/${itemImage}`
+  }
+
+  if (isPending) {
+    return <p>Loading...</p>
+  }
+
+  if (error) {
+    return <p>{error.message}</p>
+  }
+
+  if (!data) {
+    return <p>Data not found</p>
+  }
+
+  if (authLoading) {
+    return <p className="mt-8 text-center text-white">Loading...</p>
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <p className="mt-8 text-center text-white">
+        You must be logged in to see your listings.
+      </p>
+    )
+  }
+
+  return (
+    <div>
+      <h1 className="py-8 text-center font-mono text-3xl text-white">
+        My Listings
+      </h1>
+      <div className="ml-4 mr-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 place-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {data.map((listing) => (
+            <div key={listing.listingId}>
+              <img
+                src={getImgSrc(listing.itemImage)}
+                alt=""
+                className="h-64 w-full object-cover"
+              ></img>
+              <div className="mb-12 rounded-none bg-hardware-white p-6">
+                <h2 className="mb-4 font-mono text-lg">{listing.itemName}</h2>
+                <p className="mb-8 text-sm">{`Starting Price: $${listing.startingPrice.toFixed(2)}`}</p>
+
+                <div className="my-4 flex max-w-32 justify-between text-sm">
+                  <p>Posted:</p>
+                  <p className="font-style: italic">
+                    {timeAgo(listing.createdAt)}
+                  </p>
+                </div>
+
+                <div className="flex justify-end">
+                  <ChevronRight
+                    onClick={() => navigate(`/listings/${listing.listingId}`)}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
