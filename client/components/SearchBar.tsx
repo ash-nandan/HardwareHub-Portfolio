@@ -89,7 +89,10 @@ export function SearchBar() {
 
         <div className="w-full md:w-80">
           <Select onValueChange={(value) => setCatId(Number(value))}>
-            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+            <SelectTrigger
+              data-testid="category-select"
+              className="w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal"
+            >
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
@@ -104,7 +107,10 @@ export function SearchBar() {
 
         <div className="w-full md:w-80">
           <Select onValueChange={(value) => setConId(Number(value))}>
-            <SelectTrigger className="w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal">
+            <SelectTrigger
+              data-testid="condition-select"
+              className="w-full rounded-none bg-hardware-white pl-3 text-hardware-charcoal"
+            >
               <SelectValue placeholder="Condition" />
             </SelectTrigger>
             <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-none bg-hardware-white pl-3 text-hardware-charcoal">

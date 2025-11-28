@@ -1,4 +1,5 @@
 export async function seed(knex) {
+  await knex('bids').del()
   await knex('user_listings').del()
   await knex('user_listings').insert([
     {
