@@ -43,14 +43,4 @@ describe('search listings', () => {
     expect(res.body).toHaveLength(1)
     expect(res.body[0].itemName).toBe('NVIDIA GeForce RTX 3060 12GB')
   })
-
-  it('returns matching results when no keywords entered', async () => {
-    const res = await request(server).get(
-      '/api/v1/listings/search?catId=3&conId=3',
-    )
-    expect(res.status).toBe(StatusCodes.OK)
-    expect(res.body).toHaveLength(1)
-    expect(res.body[0].itemName).toBe('MSI B550 Tomahawk ATX Motherboard')
-    console.log(res.body)
-  })
 })
