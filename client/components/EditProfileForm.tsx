@@ -38,6 +38,17 @@ export default function EditProfileForm({ profile, onClose, onUpdate }: Props) {
         Edit Profile
       </h2>{' '}
       <br></br>
+      <label htmlFor="username" className="text-md font-mono text-[#F3F6F9]">
+        Username
+      </label>
+      <input
+        name="username"
+        value={form.username}
+        onChange={handleChange}
+        className="w-full rounded border border-[#D3D8DE] bg-[#F3F6F9] p-2 text-[#2A2A32]"
+      />{' '}
+      <br></br>
+      <br></br>
       <label htmlFor="first_name" className="text-md font-mono text-[#F3F6F9]">
         First Name
       </label>
