@@ -8,9 +8,13 @@ describe('Search listings', () => {
     const fakeCategory = [{ id: 1, name: 'CPU' }]
     const fakeCondition = [{ id: 1, description: 'Used' }]
 
-    nock('http://localhost').get('/api/v1/categories').reply(200, fakeCategory)
+    nock('http://localhost:3000')
+      .get('/api/v1/categories')
+      .reply(200, fakeCategory)
 
-    nock('http://localhost').get('/api/v1/conditions').reply(200, fakeCondition)
+    nock('http://localhost:3000')
+      .get('/api/v1/conditions')
+      .reply(200, fakeCondition)
 
     const { user } = setupApp('/')
 
