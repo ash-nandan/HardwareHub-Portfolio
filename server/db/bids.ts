@@ -6,6 +6,7 @@ export async function createBid(bidData: BidData): Promise<Bid> {
     user_id: bidData.userId,
     user_listing_id: bidData.userListingId,
     bid_price: bidData.bidPrice,
+    created_at: new Date().toISOString(),
   })
 
   const newBid = await db('bids')

@@ -7,6 +7,7 @@ import { DeleteListing } from './DeleteListing'
 import { UpdateListing } from './UpdateListingButton'
 import { useAuth } from '../hooks/authHooks'
 import { checkBids } from '../apis/bids'
+import { BiddingPanel } from './BiddingPanel'
 
 export function SingleListing() {
   const params = useParams()
@@ -185,6 +186,16 @@ export function SingleListing() {
 
           <p className="text-hardware-charcoal">{data.itemDescription}</p>
         </div>
+
+        {/* Bidding Panel - Only show if auction is still active and user is not the owner */}
+        {!isClosed && !isOwner(data.userId) && (
+          <div className="mr-6 mt-8">
+            <BiddingPanel
+              listingId={data.listingId}
+              startingPrice={data.startingPrice}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

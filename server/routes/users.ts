@@ -1,6 +1,6 @@
 import express from 'express'
 import * as db from '../db/users'
-import checkJwt, { JwtRequest } from 'server/auth0'
+import checkJwt, { JwtRequest } from '../auth0'
 
 const router = express.Router()
 
