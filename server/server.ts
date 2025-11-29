@@ -14,12 +14,12 @@ server.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 server.use('/api/v1/profile', profileRoutes)
 server.use('/api/v1/listings', listings)
+server.use('/api/v1/bids', bids)
 
 server.use(express.static('public'))
 
 server.use('/api/v1/conditions', conditions)
 server.use('/api/v1/categories', categories)
-server.use('/api/v1/bids', bids)
 server.use('/api/v1/users', users)
 
 if (process.env.NODE_ENV === 'production') {

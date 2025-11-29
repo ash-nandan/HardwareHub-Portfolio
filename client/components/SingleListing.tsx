@@ -7,8 +7,12 @@ import { DeleteListing } from './DeleteListing'
 import { UpdateListing } from './UpdateListingButton'
 import { useAuth } from '../hooks/authHooks'
 import { checkBids } from '../apis/bids'
+import { BiddingPanel } from './BiddingPanel'
+import { useEffect, useState } from 'react'
+import { getTimeLeft } from '../utils/getTimeLeft'
 
 export function SingleListing() {
+  const [timeLeft, setTimeLeft] = useState('')
   const params = useParams()
   const listingId = Number(params.id)
   const navigate = useNavigate()
@@ -40,6 +44,16 @@ export function SingleListing() {
     if (itemImage.startsWith('/')) return itemImage
     return `/images-listings/${itemImage}`
   }
+
+  useEffect(() => {
+    if (!data) return
+
+    const checkEvery = setInterval(() => {
+      setTimeLeft(getTimeLeft(data.createdAt))
+    }, 1000)
+
+    return () => clearInterval(checkEvery) // cleanup after every check
+  }, [data])
 
   if (isPending) {
     return <p>Loading...</p>
@@ -131,7 +145,7 @@ export function SingleListing() {
               <div className="mt-6">
                 <p className="text-sm text-hardware-charcoal/80">
                   {' '}
-                  No bids yet
+                  {`Auction ends ${timeLeft}`}
                 </p>
               </div>
             )}
@@ -185,6 +199,16 @@ export function SingleListing() {
 
           <p className="text-hardware-charcoal">{data.itemDescription}</p>
         </div>
+
+        {/* Bidding Panel - Only show if auction is still active and user is not the owner */}
+        {!isClosed && !isOwner(data.userId) && (
+          <div className="mr-6 mt-8">
+            <BiddingPanel
+              listingId={data.listingId}
+              startingPrice={data.startingPrice}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
