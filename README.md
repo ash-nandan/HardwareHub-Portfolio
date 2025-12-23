@@ -1,8 +1,8 @@
-# Welcome to HardwareHub
+# 🛠 Welcome to HardwareHub
 
 **HardwareHub** is a marketplace PC trading platform built as part of my final group project at **Dev Academy Aotearoa**. This allows users to create profiles, list hardware items, place bids, create bids, manage their accounts and more. This repository highlights my contributions to the group project; focusing on user profile management using both frontend and backend framework. 
 
-## Setup
+## ⚙️Setup
 
 ### Cloning and installation
 
@@ -18,11 +18,11 @@
   ```
 
 
-## My Contributions
+## 👩‍💻 My Contributions
 
 I was primarily responsible for implementing the **Profile Functionality** including both frontend and backend features:
 
-## Frontend
+## ⚛️ Frontend
 
 ### EditProfileForm component 
 
@@ -40,7 +40,7 @@ I was primarily responsible for implementing the **Profile Functionality** inclu
 
 ⤑ Styled components using TailwindCSS to match the app's UI design.
 
-## Backend
+## 🌐Backend
 
 ### Database Functions (db/profile.ts)
 
@@ -58,7 +58,7 @@ I was primarily responsible for implementing the **Profile Functionality** inclu
 
 ⤑ Ensured data integrity and error handling across all endpoints. 
 
-## Tech Stack
+## 🧰 Tech Stack
 
 ### Frontend: 
 React, TypeScript, Tailwind CSS.
@@ -72,14 +72,14 @@ PostgreSQL
 ### Other Tools:
 Multer for file uploads, fetch Api for client server communication. 
 
-## Challenges
+## 🚧 Challenges
 ### When I was implementing the **Delete Profile** feature, I faced a challenge:
 
 ⤑ Deleting a user required **removing all related listings and bids** without leaving orphan data.
 
 ⤑ Initially, deleting in wrong order caused **foreign key contraint errors**.
 
-## Solution
+## 🤔💭Solution
 ### I implemented a transactional delete in PostgreSQL:
 ⤑ Deleted all bids associated with the user listings.
 
@@ -89,6 +89,6 @@ Multer for file uploads, fetch Api for client server communication.
 
 ⤑ Delete the user account.
 
-### Reflection
+### 💡 Reflection
 I had a lot of fun and enjoyed working on this group project! The energy in our team was high and everyone collaborated and communicated very well. I'm quite proud of **learning how to use Multer** for profile uploads. I actually had used Multer in the previous group project; so it was a new challenge for me at first but I got to practise using this middleware again and became quite comfortable with it. I'm still fascinated by how it works. I'll definitely be using Multer again in future personal projects. This project not only strengthened my **technical skills** but also fortified the value of **teamwork**, **communication** and **problem solving** in building applications.   
 
