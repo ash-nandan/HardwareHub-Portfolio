@@ -15,6 +15,11 @@
   cd HardwareHub
   npm install
   npm run dev
+
+  Note: In case if the page is loading or shows internal error try:
+  npm run knex migrate:rollback --all
+  npm run knex migrate:latest
+  npm run knex seed:run  
   ```
 
 
